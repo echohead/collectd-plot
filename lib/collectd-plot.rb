@@ -7,6 +7,7 @@ require 'collectd-plot/plot_properties'
 
 module CollectdPlot
 
+# TODO: move this helper
 helpers do
  def link_to url_fragment, mode=:path_only
     case mode
@@ -27,17 +28,21 @@ helpers do
   end
 end
 
+
+# list hosts
 get '/' do
   @hosts = RRDRead.list_hosts
   haml :index
 end
 
+# list metrics for host
 get '/hosts/:h' do |h|
   @host = h
   @metrics = RRDRead.list_metrics_for(@host)
   haml :host
 end
 
+# get metric for host
 get '/hosts/:h/metric/:m' do |h, m|
   content_type 'image/png'
   props = PlotProperties.new(:host => h, :metric => m)
@@ -45,6 +50,7 @@ get '/hosts/:h/metric/:m' do |h, m|
   Plot.render(data, props)
 end
 
+# render a plot
 get '/plot' do
   content_type 'image/png'
   props = PlotProperties.new(params)
