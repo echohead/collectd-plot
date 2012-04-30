@@ -34,11 +34,13 @@ get '/' do
   haml :index
 end
 
-# TODO: one method for json, xml, and html
+# TODO: one method for json and html
+# list hosts
 get '/hosts.json' do
   content_type 'application/json'
   RRDRead.list_hosts.to_json
 end
+
 
 # list metrics for host
 get '/hosts/:h.json' do |h|
@@ -54,25 +56,19 @@ get '/hosts/:h' do |h|
   haml :host
 end
 
-# get metric for host
-get '/hosts/:h/metric/:m' do |h, m|
-#  content_type 'image/png'
-#  props = PlotProperties.new(:host => h, :metric => m)
-#  data = RRDRead.get_data(props)
-#  Plot.render(data, props)
+# return an entire rrdfile
+get '/hosts/:h/metric/:m/instance/:i/rrd' do |h, m, i|
+  content_type 'application/octet-stream'
+  RRDRead.rrd_file(h, m, i)
 end
 
-# render a plot
-get '/plot' do
-#  content_type 'image/png'
-#  props = PlotProperties.new(params)
-#  data = RRDRead.get_data(props)
-#  Plot.render(data, props)
-end
 
 get '/sandbox' do
-#  content_type 'image/png'
-#  CollectdPlot::Plot.example
+  (fstart, fend, data) = RRD.fetch('/vagrant/spec/fixtures/rrd/host_a/memory/memory-free.rrd', '--start', 0.to_s, '--end', Time.now.to_i.to_s, 'AVERAGE')
+  puts fstart
+  puts fend
+  puts data.inspect
+  'foo'
 end
 
 end
