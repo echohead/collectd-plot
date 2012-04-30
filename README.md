@@ -9,9 +9,9 @@
     TODO
 
   * Running a dev instance
-    ** Install vagrant
-    ** run `vagrant up`
-    ** the service should be available on the host machine at port 8081
+    - Install vagrant
+    - run `vagrant up`
+    - the service should be available on the host machine at port 8081
 
 # Deployment
 
