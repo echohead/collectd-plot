@@ -3,7 +3,7 @@
 # as /vagrant/.
 
 packages = [
-  'ruby-1.9.1'
+  'ruby1.9.1'
 ]
 
 packages.each do |p|
@@ -18,6 +18,6 @@ script 'Install Bundled Gems' do
   cwd '/vagrant'
   user 'root'
   code <<-EOS
-    bundle isntall --quiet --development'
+    gem1.9.1 install bundler && bundle install --quiet --development
   EOS
 end

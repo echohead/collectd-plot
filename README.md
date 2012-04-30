@@ -13,6 +13,8 @@
     - run `vagrant up`
     - the service should be available on the host machine at port 8081
 
+  * Log into the vm for troubleshooting with `vagrant ssh`
+
 # Deployment
 
   TODO
