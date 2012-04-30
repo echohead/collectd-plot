@@ -1,8 +1,8 @@
 #!/usr/bin/ruby
 
 CHEF_ROOT = "#{File.dirname(__FILE__)}/chef"
-BOX = 'oneiric64'
-BOX_URL = 'http://echohead.org/~tim/public_html/vagrant/oneiric64.box'
+BOX = 'oneiric64_base'
+BOX_URL = 'http://echohead.org/~tim/vagrant/oneiric64_base.box'
 
 nodes = {
   :server => {
