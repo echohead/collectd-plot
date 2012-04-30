@@ -7,7 +7,7 @@ BOX_URL = 'http://echohead.org/~tim/public_html/vagrant/oneiric64.box'
 nodes = {
   :server => {
     :ip_address => '192.168.50.15',
-    :roles => [],
+    :roles => ['Dev-Collectd-Plot'],
     :forwards => { 80 => 8081 }
   }
 }
@@ -27,7 +27,6 @@ Vagrant::Config.run do |global_config|
         config.vm.forward_port from, to
       end
 
-=begin
       config.vm.provision :chef_solo do |chef|
         chef.cookbooks_path = "#{CHEF_ROOT}/cookbooks"
         chef.roles_path = "#{CHEF_ROOT}/roles"
@@ -36,7 +35,6 @@ Vagrant::Config.run do |global_config|
           chef.add_role role
         end
       end
-=end
     end
   end
 end
