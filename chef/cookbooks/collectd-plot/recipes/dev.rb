@@ -7,7 +7,7 @@ packages = [
 ]
 
 packages.each do |p|
-  package p
+  package p do
     action :install
   end
 end
