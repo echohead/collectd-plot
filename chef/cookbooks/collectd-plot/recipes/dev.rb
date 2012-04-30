@@ -4,7 +4,11 @@
 
 packages = [
   'ruby1.9.1',
-  'git'
+  'git',
+  'rrdtool',
+  'librrd-dev',
+  'libxml2-dev',
+  'libxslt1-dev'
 ]
 
 packages.each do |p|

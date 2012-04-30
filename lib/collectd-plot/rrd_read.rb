@@ -2,7 +2,8 @@ require 'errand'
 
 module CollectdPlot
   module RRDRead
-    RRDDIR = '/var/lib/collectd/rrd/'
+    # TODO: get this from config.
+    RRDDIR = '/vagrant/spec/fixtures/rrd/'
 
     def self.list_hosts
       Dir.glob("#{RRDDIR}/*").map { |p| File.basename p }

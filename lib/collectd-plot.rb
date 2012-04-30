@@ -2,8 +2,6 @@ $: << File.dirname(__FILE__)
 require 'sinatra'
 require 'haml'
 require 'collectd-plot/rrd_read'
-require 'collectd-plot/plot'
-require 'collectd-plot/plot_properties'
 
 module CollectdPlot
 
@@ -44,23 +42,23 @@ end
 
 # get metric for host
 get '/hosts/:h/metric/:m' do |h, m|
-  content_type 'image/png'
-  props = PlotProperties.new(:host => h, :metric => m)
-  data = RRDRead.get_data(props)
-  Plot.render(data, props)
+#  content_type 'image/png'
+#  props = PlotProperties.new(:host => h, :metric => m)
+#  data = RRDRead.get_data(props)
+#  Plot.render(data, props)
 end
 
 # render a plot
 get '/plot' do
-  content_type 'image/png'
-  props = PlotProperties.new(params)
-  data = RRDRead.get_data(props)
-  Plot.render(data, props)
+#  content_type 'image/png'
+#  props = PlotProperties.new(params)
+#  data = RRDRead.get_data(props)
+#  Plot.render(data, props)
 end
 
 get '/sandbox' do
-  content_type 'image/png'
-  CollectdPlot::Plot.example
+#  content_type 'image/png'
+#  CollectdPlot::Plot.example
 end
 
 end

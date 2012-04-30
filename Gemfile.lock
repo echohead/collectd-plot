@@ -3,7 +3,6 @@ PATH
   specs:
     collectd-plot (0.0.1)
       errand (= 0.7.3)
-      gnuplot (= 2.4.1)
       haml (= 3.1.4)
       librrd (= 1.0.2)
       sinatra (= 1.3.2)
@@ -24,7 +23,6 @@ GEM
     errand (0.7.3)
     gherkin (2.9.1)
       json (>= 1.4.6)
-    gnuplot (2.4.1)
     haml (3.1.4)
     json (1.6.5)
     librrd (1.0.2)
