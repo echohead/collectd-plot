@@ -24,7 +24,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency     "sinatra",   "= 1.3.2"
   s.add_runtime_dependency     "errand",    "= 0.7.3"
   s.add_runtime_dependency     "librrd",    "= 1.0.2"
-  s.add_runtime_dependency     "gnuplot",   "= 2.4.1"
   s.add_development_dependency "shotgun",   ">= 0"
   s.add_development_dependency "rack-test", ">= 0"
   s.add_development_dependency "rspec",     ">= 0"

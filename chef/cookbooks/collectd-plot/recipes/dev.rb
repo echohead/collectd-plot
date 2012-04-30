@@ -3,7 +3,8 @@
 # as /vagrant/.
 
 packages = [
-  'ruby1.9.1'
+  'ruby1.9.1',
+  'git'
 ]
 
 packages.each do |p|
@@ -11,6 +12,15 @@ packages.each do |p|
     action :install
   end
 end
+
+script 'Ruby 1.9 as Default' do
+  interpreter 'bash'
+  user 'root'
+  code <<-EOS
+    update-alternatives --set ruby /usr/bin/ruby1.9.1 && update-alternatives --set gem /usr/bin/gem1.9.1
+  EOS
+end
+
 
 # install gems
 script 'Install Bundled Gems' do
