@@ -1,6 +1,7 @@
 $: << File.dirname(__FILE__)
 require 'sinatra'
 require 'haml'
+require 'json'
 require 'collectd-plot/rrd_read'
 
 module CollectdPlot
@@ -31,6 +32,19 @@ end
 get '/' do
   @hosts = RRDRead.list_hosts
   haml :index
+end
+
+# TODO: one method for json, xml, and html
+get '/hosts.json' do
+  content_type 'application/json'
+  RRDRead.list_hosts.to_json
+end
+
+# list metrics for host
+get '/hosts/:h.json' do |h|
+  content_type 'application/json'
+  @host = h
+  RRDRead.list_metrics_for(@host).to_json
 end
 
 # list metrics for host

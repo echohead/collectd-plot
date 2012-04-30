@@ -5,8 +5,7 @@
 
 # Development
 
-  * Tests
-    TODO
+  * Run the Tests: `bundle exec rake spec`
 
   * Running a dev instance
     - Install vagrant
