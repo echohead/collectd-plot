@@ -1,7 +1,0 @@
-
-%table
-  %tbody
-    - @metrics.each do |m|
-      %tr
-        %td
-          %a{:href => link_to("/hosts/#{@host}/metric/#{m}")}= m
