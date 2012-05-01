@@ -30,6 +30,7 @@ script 'Install Bundled Gems' do
   cwd node[:collectd_plot][:root]
   user 'root'
   code <<-EOS
-    gem1.9.1 install bundler && bundle install --quiet --development
+    gem1.9.1 install bundler
+    bundle install
   EOS
 end
