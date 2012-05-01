@@ -10,7 +10,9 @@
   * Running a dev instance
     - Install vagrant
     - run `vagrant up`
-    - the service should be available on the host machine at port 8081
+    - the service should be available on the host machine at port 8081:   http://localhost:8081
+    - the service is run with shotgun, which reloads the code for every request, so edits to the source under /vagrant will be visible with the next request, with no restart.
+
 
   * Log into the vm for troubleshooting with `vagrant ssh`
 
