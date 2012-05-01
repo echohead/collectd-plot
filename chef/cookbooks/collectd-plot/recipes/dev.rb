@@ -1,5 +1,6 @@
 # this is a recipe for running collectd-plot inside a vagrant vm.
 
+include_recipe 'collectd-plot::common'
 
 script 'Start the service with shotgun' do
   interpreter 'bash'

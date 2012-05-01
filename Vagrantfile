@@ -8,6 +8,7 @@ nodes = {
   :server => {
     :ip_address => '192.168.50.15',
     :roles => ['Dev-Collectd-Plot'],
+#    :roles => ['Prod-Collectd-Plot'],
     :forwards => { 80 => 8081 }
   }
 }

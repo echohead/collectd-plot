@@ -15,8 +15,7 @@ packages.each do |p|
   end
 end
 
-script 'Ruby 1.9 as Default' do
-  interpreter 'bash'
+bash 'Ruby 1.9 as Default' do
   user 'root'
   code <<-EOS
     update-alternatives --set ruby /usr/bin/ruby1.9.1 && update-alternatives --set gem /usr/bin/gem1.9.1
@@ -25,8 +24,7 @@ end
 
 
 # install gems
-script 'Install Bundled Gems' do
-  interpreter 'bash'
+bash 'Install Bundled Gems' do
   cwd node[:collectd_plot][:root]
   user 'root'
   code <<-EOS

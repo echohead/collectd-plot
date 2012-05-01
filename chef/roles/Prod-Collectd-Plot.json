@@ -1,12 +1,14 @@
 {
   "name": "Prod-Collectd-Plot",
   "default_attributes": {
+    "collectd_plot": {
+      "root": "/vagrant"
+    }
   },
   "json_class": "Chef::Role",
   "env_run_lists": {
   },
   "run_list": [
-    "recipe[collectd-plot::common]",
     "recipe[collectd-plot::prod]"
   ],
   "description": "Collectd-Plot Service",

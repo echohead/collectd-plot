@@ -9,7 +9,6 @@
   "env_run_lists": {
   },
   "run_list": [
-    "recipe[collectd-plot::common]",
     "recipe[collectd-plot::dev]"
   ],
   "description": "Collectd-Plot Service",
