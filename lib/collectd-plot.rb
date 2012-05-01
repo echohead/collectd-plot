@@ -37,14 +37,14 @@ end
 # TODO: one method for json and html
 # list hosts
 get '/hosts.json' do
-  content_type 'application/json'
+  content_type :json
   RRDRead.list_hosts.to_json
 end
 
 
 # list metrics for host
 get '/hosts/:h.json' do |h|
-  content_type 'application/json'
+  content_type :json
   @host = h
   RRDRead.list_metrics_for(@host).to_json
 end
@@ -64,11 +64,8 @@ end
 
 
 get '/sandbox' do
-  (fstart, fend, data) = RRD.fetch('/vagrant/spec/fixtures/rrd/host_a/memory/memory-free.rrd', '--start', 0.to_s, '--end', Time.now.to_i.to_s, 'AVERAGE')
-  puts fstart
-  puts fend
+  data = RRDRead.rrd_data('host_a', 'memory', 'memory-free', 1335739560, 1335740560)
   puts data.inspect
-  'foo'
 end
 
 end

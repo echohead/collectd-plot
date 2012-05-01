@@ -1,9 +1,14 @@
 require 'errand'
+require 'RRD'
 
 module CollectdPlot
   module RRDRead
     # TODO: get this from config.
     RRDDIR = '/vagrant/spec/fixtures/rrd/'
+
+    def self.rrd_path(host, metric, instance)
+      "#{RRDDIR}/#{host}/#{metric}/#{instance}.rrd"
+    end
 
     def self.list_hosts
       Dir.glob("#{RRDDIR}/*").map { |p| File.basename p }
@@ -18,7 +23,12 @@ module CollectdPlot
     end
 
     def self.rrd_file(host, metric, instance)
-      File.read("#{RRDDIR}/#{host}/#{metric}/#{instance}.rrd")
+      File.read(rrd_path(host, metric, instance))
+    end
+
+    def self.rrd_data(host, metric, instance, start, stop)
+      (fstart, fend, vals, data) = RRD.fetch(rrd_path(host, metric, instance), '--start', start, '--end', stop, 'AVERAGE')
+      data
     end
 
   end

@@ -8,7 +8,8 @@ packages = [
   'rrdtool',
   'librrd-dev',
   'libxml2-dev',
-  'libxslt1-dev'
+  'libxslt1-dev',
+  'librrd-ruby'
 ]
 
 packages.each do |p|
