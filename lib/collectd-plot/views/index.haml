@@ -1,0 +1,7 @@
+
+%table
+  %tbody
+    - @hosts.each do |h|
+      %tr
+        %td
+          %a{:href => link_to("/hosts/#{h}")}= h
