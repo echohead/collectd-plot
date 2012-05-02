@@ -3,6 +3,7 @@ require "#{File.dirname(__FILE__)}/../lib/collectd-plot"
 require 'rspec'
 require 'rack/test'
 require 'collectd-plot'
+require 'collectd-plot/config'
 
 set :environment, :test
 
