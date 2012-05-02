@@ -3,6 +3,8 @@ require 'spec_helper'
 describe 'the service' do
 
   it 'should list hosts' do
+get '/hosts.json'
+puts 'XXXX' + last_response.body
     JSON.parse(get('/hosts.json').body).should == ['host_a', 'host_b']
   end
 
@@ -27,7 +29,7 @@ describe 'the service' do
   end
 
   it 'sandbox' do
-    get '/sandbox'
+#    get '/sandbox'
   end
 
 end

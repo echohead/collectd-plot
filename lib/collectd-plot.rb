@@ -13,10 +13,7 @@ module CollectdPlot
     set :public_folder, @root.join('lib/collectd-plot/public')
     set :views,         @root.join('lib/collectd-plot/views')
     helpers Sinatra::LinkToHelper
-  end
 
-
-  class Hosts < Service
     # list hosts
     get '/' do
       @hosts = RRDRead.list_hosts

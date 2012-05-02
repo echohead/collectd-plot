@@ -2,6 +2,7 @@
 require "#{File.dirname(__FILE__)}/../lib/collectd-plot"
 require 'rspec'
 require 'rack/test'
+require 'collectd-plot'
 
 set :environment, :test
 
@@ -10,5 +11,5 @@ RSpec.configure do |conf|
 end
 
 def app
-  Sinatra::Application
+  CollectdPlot::Service
 end
