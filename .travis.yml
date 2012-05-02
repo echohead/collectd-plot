@@ -1,5 +1,5 @@
 before_script:
-  - sudo apt-get install --yes rrdtool librrd-dev libxml2-dev libxslt1-dev librrd-ruby
+  - sudo apt-get install rrdtool librrd-dev libxml2-dev libxslt1-dev librrd-ruby -y
   - bundle install
 
 language: ruby
