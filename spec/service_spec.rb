@@ -27,7 +27,6 @@ describe 'the service' do
   end
 
   it 'sandbox' do
-puts `ls -R /vagrant`
 #    get '/sandbox'
   end
 

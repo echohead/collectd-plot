@@ -1,5 +1,6 @@
 before_install:
   - sudo apt-get install rrdtool librrd-dev libxml2-dev libxslt1-dev librrd-ruby -y
+  - ls -R /vagrant
 
 language: ruby
 
