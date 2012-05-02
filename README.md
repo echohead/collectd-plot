@@ -21,3 +21,5 @@
   * Apply the included chef role 'Prod-Collectd-Plot'
 
   * This role will install all dependencies, and start the service on port 80 using passenger on apache.
+
+* Test
