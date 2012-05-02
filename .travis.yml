@@ -1,0 +1,13 @@
+before_install:
+  - sudo apt-get install rrdtool librrd-dev libxml2-dev libxslt1-dev librrd-ruby -y
+
+language: ruby
+
+rvm:
+  - 1.9.2
+
+script: bundle exec rake spec
+
+notifications:
+  email:
+    - tim.miller.0@gmail.com
