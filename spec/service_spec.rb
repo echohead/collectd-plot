@@ -3,11 +3,11 @@ require 'spec_helper'
 describe 'the service' do
 
   it 'should list hosts' do
-    JSON.parse(get('/hosts.json').body).sort.should == ['host_a', 'host_b'].sort
+    JSON.parse(get('/hosts.json').body).should == ['host_a', 'host_b']
   end
 
   it 'should list metrics for a host' do
-    JSON.parse(get('/hosts/host_a.json').body).sort.should == ['df-root', 'load', 'memory'].sort
+    JSON.parse(get('/hosts/host_a.json').body).should == ['df-root', 'load', 'memory']
   end
 
   it 'should give an empty array for unknown hosts' do

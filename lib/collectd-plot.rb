@@ -24,7 +24,7 @@ module CollectdPlot
     # list hosts
     get '/hosts.json' do
       content_type :json
-      RRDRead.list_hosts.to_json
+      RRDRead.list_hosts.sort.to_json
     end
 
 
@@ -32,13 +32,13 @@ module CollectdPlot
     get '/hosts/:h.json' do |h|
       content_type :json
       @host = h
-      RRDRead.list_metrics_for(@host).to_json
+      RRDRead.list_metrics_for(@host).sort.to_json
     end
 
     # list metrics for host
     get '/hosts/:h' do |h|
       @host = h
-      @metrics = RRDRead.list_metrics_for(@host)
+      @metrics = RRDRead.list_metrics_for(@host).sort
       haml :host
     end
 
