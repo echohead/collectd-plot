@@ -2,9 +2,13 @@ require 'spec_helper'
 
 describe 'config' do
 
+  before :each do
+    CollectdPlot::Config.clear!
+  end
+
   it 'should raise an error if re-initialized' do
     CollectdPlot::Config.from_hash :foo => :bar, :baz => [1, 2]
-    CollectdPlot::Config.from_hash :foo => :bar, :baz => [1, 2]
+    lambda { CollectdPlot::Config.from_hash :foo => :bar, :baz => [1, 2] }.should raise_error
   end
 
   it 'should allow properties to be accessed via method names' do
