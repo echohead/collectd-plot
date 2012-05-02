@@ -13,10 +13,7 @@ module CollectdPlot
     set :public_folder, @root.join('lib/collectd-plot/public')
     set :views,         @root.join('lib/collectd-plot/views')
     helpers Sinatra::LinkToHelper
-  end
 
-
-  class Hosts < Service
     # list hosts
     get '/' do
       @hosts = RRDRead.list_hosts
@@ -27,7 +24,7 @@ module CollectdPlot
     # list hosts
     get '/hosts.json' do
       content_type :json
-      RRDRead.list_hosts.to_json
+      RRDRead.list_hosts.sort.to_json
     end
 
 
@@ -35,13 +32,13 @@ module CollectdPlot
     get '/hosts/:h.json' do |h|
       content_type :json
       @host = h
-      RRDRead.list_metrics_for(@host).to_json
+      RRDRead.list_metrics_for(@host).sort.to_json
     end
 
     # list metrics for host
     get '/hosts/:h' do |h|
       @host = h
-      @metrics = RRDRead.list_metrics_for(@host)
+      @metrics = RRDRead.list_metrics_for(@host).sort
       haml :host
     end
 

@@ -8,5 +8,4 @@ $0 = "collectd-plot"
 
 require 'lib/collectd-plot'
 
-use CollectdPlot::Hosts
-run Sinatra::Base
+run CollectdPlot::Service

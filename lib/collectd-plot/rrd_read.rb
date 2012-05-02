@@ -4,7 +4,7 @@ require 'RRD'
 module CollectdPlot
   module RRDRead
     # TODO: get this from config.
-    RRDDIR = '/vagrant/spec/fixtures/rrd/'
+    RRDDIR = "#{File.dirname(__FILE__)}/../../spec/fixtures/rrd"
 
     def self.rrd_path(host, metric, instance)
       "#{RRDDIR}/#{host}/#{metric}/#{instance}.rrd"
