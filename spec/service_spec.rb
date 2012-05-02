@@ -3,8 +3,6 @@ require 'spec_helper'
 describe 'the service' do
 
   it 'should list hosts' do
-get '/hosts.json'
-puts 'XXXX' + last_response.body
     JSON.parse(get('/hosts.json').body).should == ['host_a', 'host_b']
   end
 
@@ -29,6 +27,7 @@ puts 'XXXX' + last_response.body
   end
 
   it 'sandbox' do
+puts `ls -R /vagrant`
 #    get '/sandbox'
   end
 
