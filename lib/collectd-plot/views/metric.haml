@@ -1,0 +1,7 @@
+
+%table
+  %tbody
+    - @instances.each do |i|
+      %tr
+        %td
+          %a{:href => link_to("/hosts/#{@host}/metric/#{@metric}/instance/#{i}/graph")}= i

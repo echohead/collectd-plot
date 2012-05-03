@@ -42,15 +42,33 @@ module CollectdPlot
       haml :host
     end
 
+    # list instance for host
+    get '/hosts/:h/metric/:m' do |h, m|
+      @host = h
+      @metric = m
+      @instances = RRDRead.list_instances_for(@host, @metric).sort
+      haml :metric
+    end
+
     # return an entire rrdfile
     get '/hosts/:h/metric/:m/instance/:i/rrd' do |h, m, i|
       content_type 'application/octet-stream'
       RRDRead.rrd_file(h, m, i)
     end
 
+# return rrd graph
+    get '/hosts/:h/metric/:m/instance/:i/graph' do |h, m, i|
+      content_type 'image/png'
+      value = "value" 
+      if(m == "load")
+        value = "shortterm"
+      end
+      RRDRead.rrd_graph(h, m, i, 1335739560, 1335740560, value)
+    end
+
     get '/sandbox' do
       data = RRDRead.rrd_data('host_a', 'memory', 'memory-free', 1335739560, 1335740560)
-      puts data.inspect
+      data.inspect
     end
   end
 

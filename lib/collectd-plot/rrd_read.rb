@@ -22,6 +22,10 @@ module CollectdPlot
       Dir.glob("#{RRDDIR}/#{h}/*").map { |m| File.basename m }
     end
 
+    def self.list_instances_for(h, m)
+      Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |m| File.basename m, ".*"}
+    end
+
     def self.rrd_file(host, metric, instance)
       File.read(rrd_path(host, metric, instance))
     end
@@ -30,6 +34,15 @@ module CollectdPlot
       (fstart, fend, vals, data) = RRD.fetch(rrd_path(host, metric, instance), '--start', start, '--end', stop, 'AVERAGE')
       data
     end
-
+    
+    def self.rrd_graph(host, metric, instance, start, stop, value)
+      rrd = rrd_path(host, metric, instance)
+      RRD.graph("graph.png",
+      "--title", "#{host} #{instance}", "--start", start, '--end', stop,
+      "--interlace", "--imgformat", "PNG",
+      "--width=700", "--heigh=500", "DEF:value=#{rrd}:#{value}:AVERAGE",
+      "LINE2:value#ff0000")
+      File.read("graph.png")
+     end
   end
 end
