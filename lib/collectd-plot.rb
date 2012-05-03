@@ -42,6 +42,14 @@ module CollectdPlot
       haml :host
     end
 
+    # instances for host
+    get '/hosts/:h/metric/:m.json' do |h, m|
+      content_type :json
+      @host = h
+      @metric = m
+      RRDRead.list_instances_for(@host, @metric).sort.to_json
+    end
+
     # list instance for host
     get '/hosts/:h/metric/:m' do |h, m|
       @host = h
