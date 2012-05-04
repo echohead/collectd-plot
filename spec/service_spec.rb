@@ -10,6 +10,10 @@ describe 'the service' do
     JSON.parse(get('/hosts/host_a.json').body).should == ['df-root', 'load', 'memory']
   end
 
+  it 'should list instances for a host' do
+    JSON.parse(get('/hosts/host_a/metric/df-root.json').body).should == ["df_complex-free","df_complex-reserved","df_complex-used"]
+  end
+
   it 'should give an empty array for unknown hosts' do
     JSON.parse(get('/hosts/foobar.json').body).should == []
   end
