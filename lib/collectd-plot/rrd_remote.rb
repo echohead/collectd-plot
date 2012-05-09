@@ -12,10 +12,15 @@ module CollectdPlot
       CollectdPlot::Config.rrd_servers.map { |h| hosts_for_shard(h) }.flatten
     end
 
-    def self.hosts_for_shard(h)
-      resp = HTTParty.get("#{h}/hosts.json")
-      raise "bad response from #{h}" unless resp.code == 200
+
+    def self.hosts_for_shard(s)
+      resp = HTTParty.get("#{s}/hosts.json")
+      raise "bad response from shard #{s}" unless resp.code == 200
       JSON.parse(resp.body)
+    end
+
+    def shard_for_host(h)
+      # TODO: cache
     end
 
   end

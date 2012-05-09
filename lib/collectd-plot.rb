@@ -60,7 +60,7 @@ module CollectdPlot
     # return an entire rrdfile
     get '/hosts/:h/metric/:m/instance/:i/rrd' do |h, m, i|
       content_type 'application/octet-stream'
-      RRDRead.rrd_file(h, m, i)
+      rrd_reader.rrd_file(h, m, i)
     end
 
 # return rrd graph
