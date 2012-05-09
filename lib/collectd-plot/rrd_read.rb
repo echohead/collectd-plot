@@ -21,7 +21,7 @@ module CollectdPlot
     def self.list_metrics_for(h)
       {}.tap do |res|
         Dir.glob("#{RRDDIR}/#{h}/*").map {|m| File.basename m }.each do |m|
-          res[m] = Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |i| File.basename(i).gsub(/.rrd$/, '') }
+          res[m] = Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |i| File.basename(i).gsub(/.rrd$/, '') }.sort
         end
       end
     end
