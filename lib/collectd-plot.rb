@@ -5,6 +5,7 @@ require 'pathname'
 require 'sinatra'
 require 'collectd-plot/helpers'
 require 'collectd-plot/rrd_read'
+require 'collectd-plot/rrd_remote'
 
 module CollectdPlot
 
@@ -13,6 +14,12 @@ module CollectdPlot
     set :public_folder, @root.join('lib/collectd-plot/public')
     set :views,         @root.join('lib/collectd-plot/views')
     helpers Sinatra::LinkToHelper
+
+
+    def rrd_reader
+      CollectdPlot::Config.proxy ? RRDRemote : RRDRead
+    end
+
 
     # list hosts
     get '/' do
@@ -24,7 +31,7 @@ module CollectdPlot
     # list hosts
     get '/hosts.json' do
       content_type :json
-      RRDRead.list_hosts.sort.to_json
+      rrd_reader.list_hosts.sort.to_json
     end
 
 
@@ -32,7 +39,7 @@ module CollectdPlot
     get '/hosts/:h.json' do |h|
       content_type :json
       @host = h
-      RRDRead.list_metrics_for(@host).sort.to_json
+      RRDRead.list_metrics_for(@host).to_json
     end
 
     # list metrics for host
@@ -40,14 +47,6 @@ module CollectdPlot
       @host = h
       @metrics = RRDRead.list_metrics_for(@host).sort
       haml :host
-    end
-
-    # instances for host
-    get '/hosts/:h/metric/:m.json' do |h, m|
-      content_type :json
-      @host = h
-      @metric = m
-      RRDRead.list_instances_for(@host, @metric).sort.to_json
     end
 
     # list instance for host

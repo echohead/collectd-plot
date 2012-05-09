@@ -19,7 +19,11 @@ module CollectdPlot
     end
 
     def self.list_metrics_for(h)
-      Dir.glob("#{RRDDIR}/#{h}/*").map { |m| File.basename m }
+      {}.tap do |res|
+        Dir.glob("#{RRDDIR}/#{h}/*").map {|m| File.basename m }.each do |m|
+          res[m] = Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |i| File.basename(i).gsub(/.rrd$/, '') }
+        end
+      end
     end
 
     def self.list_instances_for(h, m)
