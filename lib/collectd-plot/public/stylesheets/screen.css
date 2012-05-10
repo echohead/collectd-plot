@@ -36,7 +36,6 @@ div#header {
   border-bottom: 2px solid #C5D6ED;
   background-color: #3465a4;
   background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
-/*  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671)); */
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555555), to(#222222));
   -moz-box-shadow: -7px 0 7px rgba(0,0,0,0.4);
   -webkit-box-shadow: -7px 0 7px rgba(0,0,0,0.4);
@@ -285,10 +284,10 @@ div#shortcuts table th {
   -webkit-border-radius: 5px;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  background-color: #637020;
+  background-color: #000000;
   background-repeat: repeat-x;
   background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555555), to(#222222));
   border: medium none;
   color: white;
   cursor: pointer;

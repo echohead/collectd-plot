@@ -6,5 +6,5 @@
         %td
           %a{:href => link_to("/hosts/#{locals[:host]}/metric/#{locals[:metric]}/instance/#{i}/graph")}= i
         %td
-          %a{:href => link_to("/graph", {:host => locals[:host], :metric => locals[:metric], :instance => i})}
+          %a{:href => link_to("/graph_edit", {:host => locals[:host], :metric => locals[:metric], :instance => i})}
             %img{:src => link_to("/graph", {:host => locals[:host], :metric => locals[:metric], :instance => i})}

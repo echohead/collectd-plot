@@ -44,7 +44,6 @@ module CollectdPlot
 
     def self.in_temp_file
       f = Tempfile.new('collectd-plot')
-puts f.path
       res = yield f.path
       File.delete f.path
       res

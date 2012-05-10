@@ -23,6 +23,8 @@ module Sinatra
         when 'application/json'
           content_type :json
           halt data[json_key].to_json
+        when 'text/csv'
+          raise "CSV not yet implemented"
         else
           content_type :html
           halt haml(name, :locals => data)

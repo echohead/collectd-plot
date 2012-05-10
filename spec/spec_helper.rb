@@ -18,3 +18,7 @@ end
 def get_json(path)
   get(path, {}, {'HTTP_ACCEPT' => 'application/json'})
 end
+
+def get_csv(path)
+  get(path, {}, {'HTTP_ACCEPT' => 'application/csv'})
+end

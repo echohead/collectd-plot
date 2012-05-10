@@ -1,0 +1,54 @@
+
+%table
+  %tbody
+    %tr
+    %td
+      %h4 Perma-link to this plot:&nbsp&nbsp 
+    %td
+      %a{:href => link_to("/graph", {:host => locals[:params]['host'], :metric => locals[:params]['metric'], :instance => locals[:params]['instance']})}
+        link
+%hr
+%br
+
+%table
+  %tbody
+    %tr
+    %td
+      %a{:href => link_to("/graph_edit", {:host => locals[:params]['host'], :metric => locals[:params]['metric'], :instance => locals[:params]['instance']})}
+        %img{:src => link_to("/graph", {:host => locals[:params]['host'], :metric => locals[:params]['metric'], :instance => locals[:params]['instance']})}
+%br
+%br
+%hr
+%br
+
+%h4 Customize this plot:
+
+%form{:action => '/graph_edit', :method => 'get'}
+  %table
+    %tbody
+    %tr
+    %td
+      %label{:for => "host"} host:
+    %td
+      %input{:type => "text", :name => "host", :class => "text", :value => locals[:params][:host]}
+
+    %tr
+    %td
+      %label{:for => "metric"} metric:
+    %td
+      %input{:type => "text", :name => "metric", :class => "text", :value => locals[:params][:metric]}
+
+    %tr
+    %td
+      %label{:for => "instance"} instance:
+    %td
+      %input{:type => "text", :name => "instance", :class => "text", :value => locals[:params][:instance]}
+
+    %tr
+    %td
+      %input{:type => "submit", :value => "Update", :class => "button"}
+
+
+%br
+%br
+

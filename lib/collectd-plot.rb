@@ -59,6 +59,11 @@ module CollectdPlot
       RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
     end
 
+    # form to customize a graph
+    get '/graph_edit' do
+      respond_with :graph_edit, :params, :params => params
+    end
+
 # return rrd graph
     get '/hosts/:h/metric/:m/instance/:i/graph' do |h, m, i|
       content_type 'image/png'
