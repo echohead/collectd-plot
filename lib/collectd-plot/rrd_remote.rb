@@ -10,7 +10,7 @@ module CollectdPlot
 
     def self.update_shards!
       CollectdPlot::Config.rrd_servers.each do |shard|
-        hosts = http_get "#{shard}/hosts.json"
+        hosts = http_get_json "#{shard}/hosts.json"
         cache_put_hosts_for_shard shard, hosts
         hosts.each { |h| cache_put_shard_for_host h, shard }
       end
@@ -23,7 +23,7 @@ module CollectdPlot
 
     def self.hosts_for_shard(s)
       res = cache_get("hosts_for_shard.#{s}") do
-        http_get("#{s}/hosts.json")
+        http_get_json("#{s}/hosts.json")
       end
     end
 
@@ -35,6 +35,10 @@ module CollectdPlot
       res.is_a?(String) ? res : res.first
     end
 
+    def self.rrd_file(host, metric, instance)
+      shard = shard_for_host(host)
+      http_get("#{shard}/hosts/#{host}/metric/#{metric}/instance/#{instance}/rrd")
+    end
 
 
 
@@ -66,10 +70,14 @@ module CollectdPlot
       end
     end
 
+    def self.http_get_json(uri)
+      JSON.parse(http_get uri)
+    end
+
     def self.http_get(uri)
       resp = HTTParty.get uri
       raise "bad response for #{uri}" unless resp.code == 200
-      JSON.parse resp.body
+      resp.body
     end
 
     def self.namespaced_key(key)

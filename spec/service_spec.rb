@@ -57,8 +57,8 @@ describe 'the service' do
     before :each do
       CollectdPlot::Config.proxy = true
 
-      CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/hosts.json").and_return(['baz', 'bam'])
-      CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.17/hosts.json").and_return(['bar', 'foo'])
+      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/hosts.json").and_return(['baz', 'bam'])
+      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.17/hosts.json").and_return(['bar', 'foo'])
     end
 
     it 'should return the union of the hosts on all shards' do
@@ -72,7 +72,9 @@ describe 'the service' do
     end
 
     it 'should retrieve rrd files from the appropriate shard for a host' do
-      pending 'TODO'
+      rrd_data = "some binary blob"
+      CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/hosts/baz/metric/load/instance/load/rrd").and_return(rrd_data)
+      get("/hosts/baz/metric/load/instance/load/rrd").body.should == rrd_data
     end
 
   end
