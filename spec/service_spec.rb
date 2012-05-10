@@ -6,12 +6,14 @@ describe 'the service' do
     r.keys('rrd_remote.*').each { |k| r.del k }
   end
 
+  before :each do
+    CollectdPlot::Config.clear!
+    CollectdPlot::Config.from_file("#{File.dirname(__FILE__)}/fixtures/config.json")
+  end
 
   context 'when running on a persistence shard' do
 
     before :each do
-      CollectdPlot::Config.clear!
-      CollectdPlot::Config.from_file("#{File.dirname(__FILE__)}/fixtures/config.json")
       CollectdPlot::Config.proxy = false
     end
 
@@ -53,8 +55,6 @@ describe 'the service' do
   context 'when acting as a proxy' do
 
     before :each do
-      CollectdPlot::Config.clear!
-      CollectdPlot::Config.from_file("#{File.dirname(__FILE__)}/fixtures/config.json")
       CollectdPlot::Config.proxy = true
 
       CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/hosts.json").and_return(['baz', 'bam'])
