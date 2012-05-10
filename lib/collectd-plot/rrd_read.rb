@@ -40,15 +40,27 @@ module CollectdPlot
       (fstart, fend, vals, data) = RRD.fetch(rrd_path(host, metric, instance), '--start', start, '--end', stop, 'AVERAGE')
       data
     end
+
+
+    def self.in_temp_file
+      f = Tempfile.new('collectd-plot')
+puts f.path
+      res = yield f.path
+      File.delete f.path
+      res
+    end
     
     def self.rrd_graph(host, metric, instance, start, stop, value)
       rrd = rrd_path(host, metric, instance)
-      RRD.graph("graph.png",
-      "--title", "#{host} #{instance}", "--start", start, '--end', stop,
-      "--interlace", "--imgformat", "PNG",
-      "--width=700", "--heigh=500", "DEF:value=#{rrd}:#{value}:AVERAGE",
-      "LINE2:value#ff0000")
-      File.read("graph.png")
+
+      in_temp_file do |file|
+        RRD.graph(file,
+          "--title", "#{host} #{instance}", "--start", start, '--end', stop,
+          "--interlace", "--imgformat", "PNG",
+          "--width=700", "--heigh=500", "DEF:value=#{rrd}:#{value}:AVERAGE",
+          "LINE2:value#ff0000")
+          File.read(file)
+       end
      end
   end
 end
