@@ -25,6 +25,10 @@ describe 'the UI' do
       get('/hosts/host_a').body.should =~ /df-root/
     end
 
+    it 'should show a graph on a metric page' do
+      get('/hosts/host_a/metric/load').body.should =~ /img src='\/graph\?.*host_a/
+    end
+
   end
 
 

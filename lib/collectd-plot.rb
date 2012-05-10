@@ -54,7 +54,7 @@ module CollectdPlot
       opts[:host] = params['host']
       opts[:metric] = params['metric']
       opts[:instance] = params['instance']
-      opts[:value] = params['value'] || 'shortterm'
+      opts[:value] = params['value'] || 'value'
       content_type 'image/png'
       RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
     end

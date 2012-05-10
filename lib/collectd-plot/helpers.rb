@@ -6,9 +6,10 @@ module Sinatra
     def link_to(url_fragment, params={})
       base = request.script_name
       if params.size > 0
-        "#{base}#{url_fragment}?#{params.keys.map { |k| "#{k}=#{params{k}}" }.join('&')}"
-      end
+        "#{base}#{url_fragment}?#{params.keys.map { |k| "#{k}=#{params[k]}" }.join('&')}"
+      else
       "#{base}#{url_fragment}"
+      end
     end
   end
 end
