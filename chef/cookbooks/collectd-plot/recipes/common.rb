@@ -6,7 +6,8 @@ packages = [
   'librrd-dev',
   'libxml2-dev',
   'libxslt1-dev',
-  'librrd-ruby'
+  'librrd-ruby',
+  'redis-server'
 ]
 
 packages.each do |p|

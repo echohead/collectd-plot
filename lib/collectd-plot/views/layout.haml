@@ -1,8 +1,7 @@
 !!!
 %html
   %head
-    %title= "Collectd-Plot"
-    %link{:rel => "icon", :type => "image/gif", :href => "/favicon.gif"}
+    %title= "collectd-plot"
     %link{:rel => 'stylesheet', :href => '/stylesheets/screen.css', :type => 'text/css'}
 
   %body
@@ -11,17 +10,11 @@
         %div#nav
           %ul
             %li
-              %a{:href => link_to("/profiles")} profiles
-            %li
-              %a{:href => link_to("/builder")} builder
+              %a{:href => link_to('/')} collectd-plot
 
       %div#content
         = yield
 
       %div#footer
-        Collectd-Plot
-        |
-        %a{:href => link_to("/profiles")} Profiles
-        |
-        %a{:href => link_to("/builder")} Builder
+        collectd-plot
 

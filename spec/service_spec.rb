@@ -18,11 +18,11 @@ describe 'the service' do
     end
 
     it 'should list hosts' do
-    JSON.parse(get('/hosts.json').body).should == ['host_a', 'host_b']
+      JSON.parse(get_json('/hosts').body).should == ['host_a', 'host_b']
     end
 
     it 'should list metrics for a host' do
-      JSON.parse(get('/hosts/host_a.json').body).should ==  {
+      JSON.parse(get_json('/hosts/host_a').body).should ==  {
         "df-root" => ["df_complex-free", "df_complex-reserved", "df_complex-used"],
         "load" => ["load"],
         "memory" => ["memory-buffered", "memory-cached", "memory-free", "memory-used"]
@@ -30,11 +30,11 @@ describe 'the service' do
     end
 
     it 'should give an empty hash for unknown hosts' do
-      JSON.parse(get('/hosts/foobar.json').body).should == {}
+      JSON.parse(get_json('/hosts/foobar').body).should == {}
     end
 
     it 'should return the rrd file for a given metric' do
-      actual = get('/hosts/host_a/metric/memory/instance/memory-free/rrd').body
+      actual = get_json('/hosts/host_a/metric/memory/instance/memory-free/rrd').body
       expected = File.read("#{File.dirname(__FILE__)}/fixtures/rrd/host_a/memory/memory-free.rrd")
       actual.should == expected
     end
@@ -57,12 +57,12 @@ describe 'the service' do
     before :each do
       CollectdPlot::Config.proxy = true
 
-      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/hosts.json").and_return(['baz', 'bam'])
-      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.17/hosts.json").and_return(['bar', 'foo'])
+      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/hosts").and_return(['baz', 'bam'])
+      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.17/hosts").and_return(['bar', 'foo'])
     end
 
     it 'should return the union of the hosts on all shards' do
-      JSON.parse(get('/hosts.json').body).sort.should == ['bam', 'bar', 'baz', 'foo']
+      JSON.parse(get_json('/hosts').body).sort.should == ['bam', 'bar', 'baz', 'foo']
     end
 
     it 'should correctly map hosts to shards' do
@@ -74,7 +74,7 @@ describe 'the service' do
     it 'should retrieve rrd files from the appropriate shard for a host' do
       rrd_data = "some binary blob"
       CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/hosts/baz/metric/load/instance/load/rrd").and_return(rrd_data)
-      get("/hosts/baz/metric/load/instance/load/rrd").body.should == rrd_data
+      get_json("/hosts/baz/metric/load/instance/load/rrd").body.should == rrd_data
     end
 
   end

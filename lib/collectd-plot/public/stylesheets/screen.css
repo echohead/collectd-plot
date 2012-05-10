@@ -1,4 +1,3 @@
-/* resets */
 body {
   font-size: 62.5%;
 }
@@ -37,7 +36,8 @@ div#header {
   border-bottom: 2px solid #C5D6ED;
   background-color: #3465a4;
   background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
+/*  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671)); */
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#555555), to(#222222));
   -moz-box-shadow: -7px 0 7px rgba(0,0,0,0.4);
   -webkit-box-shadow: -7px 0 7px rgba(0,0,0,0.4);
 }
@@ -128,106 +128,6 @@ background-image: -moz-linear-gradient(
 );
 }
 
-/*
- * BUILDER
- */
-
-div.builder {
-  float: left;
-  width: 450px;
-  margin-left: 25px;
-  margin-bottom: 24px;
-}
-
-div.builder input.text {
-  border: 1px solid #bbb;
-  font-size: 16px;
-  padding: 4px;
-  width: 20em;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-}
-
-div.builder div.tokenWrapper {
-  border: 1px solid #bbb;
-  font-size: 16px;
-  padding: 4px;
-  padding-top: 0;
-  width: 350px;
-  height: 20px;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-}
-
-div.builder div.tokenWrapper div.token {
-  float:       left;
-  margin:      2px 4px 2px 0px;
-  font-family: Lucida Grande, sans-serif;
-  font-size:   16px;
-}
-
-div.builder div.tokenWrapper div.token.finalized {
-  padding: 0 2px;
-  background-color: #D1E5FF;
-  color: black;
-  border: 1px solid #2F5A92;
-  font-size: 14px;
-}
-
-div.builder div.tokenWrapper div.token.finalized.selected {
-  background-color: #2F5A92;
-  color: white;
-}
-
-div.builder div.tokenWrapper div.token input.token {
-  border: 0;
-  font-size: 16px;
-  width: 80px;
-}
-
-div.builder input.text:focus {
-  border: 1px solid #666;
-}
-
-div.builder img.icon {
-  float: right;
-}
-
-div.builder h5 {
-  margin-top: 8px;
-  margin-left: 8px;
-}
-
-div.builder ul.results {
-  font-family: Lucida Grande, sans-serif;
-  font-size:   16px;
-  position:    absolute;
-  z-index:     10;
-}
-
-div.builder ul.results li {
-  list-style-type: none;
-  padding:         4px 5px;
-  border-left:      1px #BBBBBB solid;
-  border-right:     1px #BBBBBB solid;
-  border-bottom:    1px #BBBBBB solid;
-  background-color: white;
-  width: 348px;
-}
-
-div.builder ul.results li.active {
-  background-color: #4C94F0;
-  color:            white;
-}
-
-div.builder ul.results li.all {
-  color: gray;
-}
-
-div.builder ul.results li.all.active {
-  background-color: #A0BD29;
-  color:            white;
-}
 
 
 

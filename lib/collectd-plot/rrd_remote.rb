@@ -10,7 +10,7 @@ module CollectdPlot
 
     def self.update_shards!
       CollectdPlot::Config.rrd_servers.each do |shard|
-        hosts = http_get_json "#{shard}/hosts.json"
+        hosts = http_get_json "#{shard}/hosts"
         cache_put_hosts_for_shard shard, hosts
         hosts.each { |h| cache_put_shard_for_host h, shard }
       end
@@ -23,7 +23,7 @@ module CollectdPlot
 
     def self.hosts_for_shard(s)
       res = cache_get("hosts_for_shard.#{s}") do
-        http_get_json("#{s}/hosts.json")
+        http_get_json("#{s}/hosts")
       end
     end
 

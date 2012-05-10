@@ -22,3 +22,21 @@ module Sinatra
     end
   end
 end
+
+
+module Sinatra
+  module RespondWithHelper
+    def respond_with(name, json_key, data)
+      (request.accept || ['text/html']).each do |type|
+        case type
+        when 'text/html'
+          content_type :html
+          halt haml(name, :locals => data)
+        else
+          content_type :json
+          halt data[json_key].to_json
+        end
+      end
+    end
+  end
+end

@@ -1,7 +1,7 @@
 
 %table
   %tbody
-    - @metrics.each do |m|
+    - locals[:metrics].keys.sort.each do |m|
       %tr
         %td
-          %a{:href => link_to("/hosts/#{@host}/metric/#{m}")}= m
+          %a{:href => link_to("/hosts/#{locals[:host]}/metric/#{m}")}= m
