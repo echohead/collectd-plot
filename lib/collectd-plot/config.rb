@@ -2,6 +2,7 @@
 
 module CollectdPlot
   module Config
+    @@data = {}
 
     def self.from_hash(data={})
       check_if_initialized!
