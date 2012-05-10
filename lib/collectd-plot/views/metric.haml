@@ -1,7 +1,8 @@
 
 %table
   %tbody
-    - @instances.each do |i|
+    - locals[:instances].each do |i|
       %tr
         %td
-          %a{:href => link_to("/hosts/#{@host}/metric/#{@metric}/instance/#{i}/graph")}= i
+          %a{:href => link_to("/hosts/#{locals[:host]}/metric/#{locals[:metric]}/instance/#{i}/graph")}= i
+          %img{:src => link_to("/graph", {:host => locals[:host], :metric => locals[:metric], :instance => i})}

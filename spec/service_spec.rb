@@ -29,6 +29,10 @@ describe 'the service' do
       }
     end
 
+    it 'shoul list instances for a metric' do
+      JSON.parse(get_json('/hosts/host_a/metric/load').body).should == ['load']
+    end
+
     it 'should give an empty hash for unknown hosts' do
       JSON.parse(get_json('/hosts/foobar').body).should == {}
     end
@@ -77,13 +81,6 @@ describe 'the service' do
       get_json("/hosts/baz/metric/load/instance/load/rrd").body.should == rrd_data
     end
 
-  end
-
-
-
-  it 'sandbox' do
-    pending 'sandbox'
-#    get '/sandbox'
   end
 
 end

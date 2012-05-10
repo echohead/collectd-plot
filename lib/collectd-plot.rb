@@ -34,13 +34,29 @@ module CollectdPlot
 
     # list metrics for host
     get '/hosts/:h' do |h|
-      respond_with :host, :metrics, :host => h, :metrics => RRDRead.list_metrics_for(h)
+      respond_with :host, :metrics, :host => h, :metrics => rrd_reader.list_metrics_for(h)
+    end
+
+    # show a plugin in the ui, or list plugin instances in json
+    get '/hosts/:h/metric/:m' do |h, m|
+      respond_with :metric, :instances, :host => h, :metric => m, :instances => rrd_reader.list_instances_for(h, m)
     end
 
     # return an entire rrdfile
     get '/hosts/:h/metric/:m/instance/:i/rrd' do |h, m, i|
       content_type 'application/octet-stream'
       rrd_reader.rrd_file(h, m, i)
+    end
+
+    # return rrdtool graph
+    get '/graph' do
+      opts = {}
+      opts[:host] = params['host']
+      opts[:metric] = params['metric']
+      opts[:instance] = params['instance']
+      opts[:value] = params['value'] || 'shortterm'
+      content_type 'image/png'
+      RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
     end
 
 # return rrd graph
