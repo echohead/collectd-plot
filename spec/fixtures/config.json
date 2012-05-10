@@ -8,5 +8,9 @@
 
   "proxy": true,
 
+  "cache": false,
+
+  "redis_host": "127.0.0.1",
+
   "arbitrary_key": "foobar"
 }

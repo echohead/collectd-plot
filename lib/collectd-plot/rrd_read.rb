@@ -1,6 +1,8 @@
 require 'errand'
 require 'RRD'
 
+# Read RRD info from the local filesystem.
+
 module CollectdPlot
   module RRDRead
     # TODO: get this from config.
