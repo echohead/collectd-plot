@@ -3,10 +3,9 @@
   %tbody
     %tr
     %td
-      %h4 Perma-link to this plot:&nbsp&nbsp 
-    %td
-      %a{:href => link_to("/graph", {:host => locals[:params]['host'], :metric => locals[:params]['metric'], :instance => locals[:params]['instance']})}
-        link
+      %h4
+        %a{:href => link_to("/graph", locals[:params])}
+          Perma-link to this plot
 %hr
 %br
 
@@ -14,35 +13,82 @@
   %tbody
     %tr
     %td
-      %a{:href => link_to("/graph_edit", {:host => locals[:params]['host'], :metric => locals[:params]['metric'], :instance => locals[:params]['instance']})}
-        %img{:src => link_to("/graph", {:host => locals[:params]['host'], :metric => locals[:params]['metric'], :instance => locals[:params]['instance']})}
+      %a{:href => link_to("/graph", locals[:params])}
+        %img{:src => link_to("/graph", locals[:params])}
 %br
 %br
 %hr
 %br
+
 
 %h4 Customize this plot:
 
 %form{:action => '/graph_edit', :method => 'get'}
   %table
     %tbody
+
     %tr
     %td
       %label{:for => "host"} host:
     %td
       %input{:type => "text", :name => "host", :class => "text", :value => locals[:params][:host]}
+    %td
+      %div#examples
+        Examples:
 
     %tr
     %td
       %label{:for => "metric"} metric:
     %td
       %input{:type => "text", :name => "metric", :class => "text", :value => locals[:params][:metric]}
+    %td
+      %div#examples
+        e.g.: "memory", "load"
 
     %tr
     %td
       %label{:for => "instance"} instance:
     %td
       %input{:type => "text", :name => "instance", :class => "text", :value => locals[:params][:instance]}
+    %td
+      %div#examples
+        Examples:
+
+    %tr
+    %td
+      %label{:for => "start"} start time:
+    %td
+      %input{:type => "text", :name => "start", :class => "text", :value => locals[:params][:start]}
+    %td
+      %div#examples
+        e.g.: "1335739560", "end-24h", "end-15m", "20120511 23:00"
+
+    %tr
+    %td
+      %label{:for => "end"} end time:
+    %td
+      %input{:type => "text", :name => "end", :class => "text", :value => locals[:params][:end]}
+    %td
+      %div#examples
+        e.g.: "now", "1335739560", "20120511 13:45"
+
+    %tr
+    %td
+      %label{:for => "x"} width:
+    %td
+      %input{:type => "text", :name => "x", :class => "text", :value => locals[:params][:x]}
+    %td
+      %div#examples
+        x pixel resolution
+
+    %tr
+    %td
+      %label{:for => "y"} height:
+    %td
+      %input{:type => "text", :name => "y", :class => "text", :value => locals[:params][:y]}
+    %td
+      %div#examples
+        y pixel resolution
 
     %tr
     %td

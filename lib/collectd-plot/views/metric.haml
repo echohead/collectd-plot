@@ -4,7 +4,8 @@
     - locals[:instances].each do |i|
       %tr
         %td
-          %a{:href => link_to("/hosts/#{locals[:host]}/metric/#{locals[:metric]}/instance/#{i}/graph")}= i
+          %a{:href => link_to("/graph_edit", {:host => locals[:host], :metric => locals[:metric], :instance => i, :x => 500, :y => 300})}
+            = i
         %td
-          %a{:href => link_to("/graph_edit", {:host => locals[:host], :metric => locals[:metric], :instance => i})}
-            %img{:src => link_to("/graph", {:host => locals[:host], :metric => locals[:metric], :instance => i})}
+          %a{:href => link_to("/graph_edit", {:host => locals[:host], :metric => locals[:metric], :instance => i, :x => 500, :y => 300})}
+            %img{:src => link_to("/graph", {:host => locals[:host], :metric => locals[:metric], :instance => i, :x => 300, :y => 200})}

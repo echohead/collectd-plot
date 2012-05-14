@@ -50,28 +50,20 @@ module CollectdPlot
 
     # return rrdtool graph
     get '/graph' do
-      opts = {}
-      opts[:host] = params['host']
-      opts[:metric] = params['metric']
-      opts[:instance] = params['instance']
-      opts[:value] = params['value'] || 'value'
       content_type 'image/png'
-      RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
+params[:value] = "value" 
+if(params[:metric] == "load")
+  params[:value] = "shortterm"
+end
+      #RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
+      RRDRead.graph(params)
     end
 
     # form to customize a graph
     get '/graph_edit' do
+      params[:end] ||= 'now'
+      params[:start] ||= 'end-24h'
       respond_with :graph_edit, :params, :params => params
-    end
-
-# return rrd graph
-    get '/hosts/:h/metric/:m/instance/:i/graph' do |h, m, i|
-      content_type 'image/png'
-      value = "value" 
-      if(m == "load")
-        value = "shortterm"
-      end
-      RRDRead.rrd_graph(h, m, i, 1335739560, 1335740560, value)
     end
 
     get '/sandbox' do

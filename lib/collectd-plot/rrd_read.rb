@@ -42,23 +42,36 @@ module CollectdPlot
     end
 
 
-    def self.in_temp_file
+    def self.temp_file_contents
       f = Tempfile.new('collectd-plot')
-      res = yield f.path
+      yield f.path
+      res = File.read f.path
       File.delete f.path
       res
     end
-    
-    def self.rrd_graph(host, metric, instance, start, stop, value)
-      rrd = rrd_path(host, metric, instance)
 
-      in_temp_file do |file|
-        RRD.graph(file,
-          "--title", "#{host} #{instance}", "--start", start, '--end', stop,
+
+    def self.sanitize_graph_opts!(opts)
+      opts[:x] = 800 if opts[:x].to_i > 800
+      opts[:y] = 800 if opts[:y].to_i > 800
+      opts[:x] = 100 if opts[:x].to_i < 100
+      opts[:y] = 100 if opts[:y].to_i < 100
+      opts[:start] ||= 'end-24h'
+      opts[:end] ||= 'now'
+    end
+
+    
+    def self.graph(opts)
+      sanitize_graph_opts!(opts)
+      rrd = rrd_path(opts[:host], opts[:metric], opts[:instance])
+
+
+      temp_file_contents do |tmp|
+        RRD.graph(tmp,
+          "--title", "#{opts[:host]} #{opts[:instance]}", '--start', opts[:start], '--end', opts[:end],
           "--interlace", "--imgformat", "PNG",
-          "--width=700", "--heigh=500", "DEF:value=#{rrd}:#{value}:AVERAGE",
+          "--width=#{opts[:x]}", "--height=#{opts[:y]}", "DEF:value=#{rrd}:#{opts[:value]}:AVERAGE",
           "LINE2:value#ff0000")
-          File.read(file)
        end
      end
   end

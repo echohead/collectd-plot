@@ -202,6 +202,14 @@ div#bottom_nav {
   font-size: 85%;
 }
 
+div#examples {
+  clear: both;
+  font-size: 0.6em;
+  color: green;
+  text-align: left;
+  margin-left: 5em;
+}
+
 div#footer {
   clear: both;
   font-size: 0.6em;
