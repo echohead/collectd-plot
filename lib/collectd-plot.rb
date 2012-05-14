@@ -5,6 +5,7 @@ require 'pathname'
 require 'sinatra'
 require 'collectd-plot/config'
 require 'collectd-plot/helpers'
+require 'collectd-plot/rrd_graph'
 require 'collectd-plot/rrd_read'
 require 'collectd-plot/rrd_remote'
 
@@ -56,7 +57,7 @@ if(params[:metric] == "load")
   params[:value] = "shortterm"
 end
       #RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
-      RRDRead.graph(params)
+      RRDGraph.graph(params)
     end
 
     # form to customize a graph

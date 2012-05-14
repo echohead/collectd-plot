@@ -41,38 +41,5 @@ module CollectdPlot
       data
     end
 
-
-    def self.temp_file_contents
-      f = Tempfile.new('collectd-plot')
-      yield f.path
-      res = File.read f.path
-      File.delete f.path
-      res
-    end
-
-
-    def self.sanitize_graph_opts!(opts)
-      opts[:x] = 800 if opts[:x].to_i > 800
-      opts[:y] = 800 if opts[:y].to_i > 800
-      opts[:x] = 100 if opts[:x].to_i < 100
-      opts[:y] = 100 if opts[:y].to_i < 100
-      opts[:start] ||= 'end-24h'
-      opts[:end] ||= 'now'
-    end
-
-    
-    def self.graph(opts)
-      sanitize_graph_opts!(opts)
-      rrd = rrd_path(opts[:host], opts[:metric], opts[:instance])
-
-
-      temp_file_contents do |tmp|
-        RRD.graph(tmp,
-          "--title", "#{opts[:host]} #{opts[:instance]}", '--start', opts[:start], '--end', opts[:end],
-          "--interlace", "--imgformat", "PNG",
-          "--width=#{opts[:x]}", "--height=#{opts[:y]}", "DEF:value=#{rrd}:#{opts[:value]}:AVERAGE",
-          "LINE2:value#ff0000")
-       end
-     end
   end
 end
