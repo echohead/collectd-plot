@@ -13,6 +13,7 @@ module CollectdPlot
           'used'     => {:rrd => 'memory-used', :value => 'value'}
         }
         opts[:line_width] = 2
+        opts[:graph_type] = :stacked
       end
     end
   end

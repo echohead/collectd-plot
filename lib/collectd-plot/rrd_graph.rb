@@ -27,6 +27,7 @@ module CollectdPlot
 
       opts[:title] ||= "#{opts[:host]} #{opts[:instance]}"
       opts[:line_width] ||= 2
+      opts[:graph_type] ||= :line
     end
 
 
@@ -59,6 +60,34 @@ module CollectdPlot
         i += 1
       end
     end
+
+
+    def self.stacked_args(series, host, metric)
+      res = []
+      each_pair_with_index(series) do |name, props, i|
+        res << "DEF:avg#{i}=#{RRDRead.rrd_path host, metric, props[:rrd]}:#{props[:value]}:AVERAGE"
+      end
+      (series.length - 1).downto(0) do |i|
+        if i == series.length - 1
+          res << "CDEF:area#{i}=avg#{i}"
+        else
+          res << "CDEF:area#{i}=avg#{i},area#{i+1},+"
+        end
+      end
+      series.keys.each_with_index do |name, i|
+        res << "AREA:area#{i}##{rand_color i, series.size}:#{name}"
+      end
+      res
+    end
+
+    def self.line_args(opts)
+      res = []
+      each_pair_with_index(opts[:series]) do |name, props, i|
+        rrd = RRDRead.rrd_path opts[:host], opts[:metric], props[:rrd]
+        res.concat [ "DEF:value#{i}=#{rrd}:#{props[:value]}:AVERAGE", "LINE#{opts[:line_width]}:value#{i}##{rand_color i, opts[:series].size}:#{name}" ]
+      end
+      res
+    end
  
     def self.graph(opts)
       massage_graph_opts!(opts)
@@ -74,14 +103,14 @@ module CollectdPlot
           "--interlace", "--imgformat", "PNG",
           "--width=#{opts[:x]}",
           "--height=#{opts[:y]}",
-#          "DEF:value=#{rrd}:#{opts[:value]}:AVERAGE", "LINE2:value#ff0000"
         ]
 
-        num_lines = opts[:series].length
-        each_pair_with_index(opts[:series]) do |name, props, i|
-          rrd = RRDRead.rrd_path opts[:host], opts[:metric], props[:rrd]
-          args.concat [ "DEF:value#{i}=#{rrd}:#{props[:value]}:AVERAGE", "LINE#{opts[:line_width]}:value#{i}##{rand_color i, num_lines}:#{name}" ]
+        if opts[:graph_type] == :stacked
+          args.concat stacked_args(opts[:series], opts[:host], opts[:metric])
+        else
+          args.concat line_args(opts)
         end
+
         args.concat [ '--vertical-label', opts[:ylabel] ] if opts[:ylabel]
 
         RRD.graph(*args)
