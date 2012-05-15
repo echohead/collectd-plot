@@ -202,6 +202,17 @@ div#bottom_nav {
   font-size: 85%;
 }
 
+code{
+  font:1.0em 'Bitstream Vera Sans Mono' ,'Courier', monospace;
+  color: #000000;
+  border-style: none;
+  border-width: 1px;
+  margin-left: 1em;
+  padding: 3px;
+  background-color: #F0F0F0;
+}
+
+
 div#examples {
   clear: both;
   font-size: 0.6em;

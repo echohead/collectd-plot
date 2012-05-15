@@ -43,7 +43,9 @@
       %input{:type => "text", :name => "metric", :class => "text", :value => locals[:params][:metric]}
     %td
       %div#examples
-        e.g.: "memory", "load"
+        e.g.:
+        %code memory
+        %code load
 
     %tr
     %td
@@ -61,7 +63,11 @@
       %input{:type => "text", :name => "start", :class => "text", :value => locals[:params][:start]}
     %td
       %div#examples
-        e.g.: "1335739560", "end-24h", "end-15m", "20120511 23:00"
+        e.g.:
+        %code 1335739560
+        %code end-24h
+        %code end-15m
+        %code 20120511 23:00
 
     %tr
     %td
@@ -70,7 +76,10 @@
       %input{:type => "text", :name => "end", :class => "text", :value => locals[:params][:end]}
     %td
       %div#examples
-        e.g.: "now", "1335739560", "20120511 13:45"
+        e.g.:
+        %code now
+        %code 1335739560
+        %code 20120511 13:45
 
     %tr
     %td
