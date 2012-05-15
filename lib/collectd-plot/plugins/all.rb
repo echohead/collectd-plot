@@ -4,6 +4,7 @@ require 'collectd-plot/plugins/df'
 require 'collectd-plot/plugins/disk'
 require 'collectd-plot/plugins/load'
 require 'collectd-plot/plugins/memory'
+require 'collectd-plot/plugins/users'
 
 module CollectdPlot
   module Plugins
@@ -14,6 +15,7 @@ module CollectdPlot
       /^disk-/ => Disk,
       /^load/ => Load,
       /^memory/ => Memory,
+      /^users$/ => Users,
       /.*/ => Default
     }
 
