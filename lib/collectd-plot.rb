@@ -52,10 +52,6 @@ module CollectdPlot
     # return rrdtool graph
     get '/graph' do
       content_type 'image/png'
-params[:value] = "value" 
-if(params[:metric] == "load")
-  params[:value] = "shortterm"
-end
       #RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
       RRDGraph.graph(params)
     end

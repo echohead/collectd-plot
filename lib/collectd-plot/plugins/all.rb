@@ -1,5 +1,7 @@
 require 'collectd-plot/plugins/cpu'
 require 'collectd-plot/plugins/default'
+require 'collectd-plot/plugins/df'
+require 'collectd-plot/plugins/disk'
 require 'collectd-plot/plugins/load'
 require 'collectd-plot/plugins/memory'
 
@@ -8,6 +10,8 @@ module CollectdPlot
 
     PLUGINS = {
       /^cpu/ => Cpu,
+      /^df-/ => Df,
+      /^disk-/ => Disk,
       /^load/ => Load,
       /^memory/ => Memory,
       /.*/ => Default

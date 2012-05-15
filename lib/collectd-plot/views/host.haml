@@ -4,4 +4,7 @@
     - locals[:metrics].keys.sort.each do |m|
       %tr
         %td
-          %a{:href => link_to("/hosts/#{locals[:host]}/metric/#{m}")}= m
+          %a{:href => link_to("/graph_edit", :host => locals[:host], :metric => m, :x => 500, :y => 200)}
+            = m
+            %br
+            %img{:src => link_to("/graph", :host => locals[:host], :metric => m, :x => 300, :y => 100)}
