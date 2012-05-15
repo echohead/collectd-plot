@@ -28,6 +28,7 @@ module CollectdPlot
       opts[:title] ||= "#{opts[:host]} #{opts[:instance]}"
       opts[:line_width] ||= 2
       opts[:graph_type] ||= :line
+      opts[:rrd_format] ||= '%.2lf'
     end
 
 
@@ -61,10 +62,17 @@ module CollectdPlot
     end
 
 
-    def self.stacked_args(series, host, metric)
+    def self.stacked_args(opts)
       res = []
-      each_pair_with_index(series) do |name, props, i|
-        res << "DEF:avg#{i}=#{RRDRead.rrd_path host, metric, props[:rrd]}:#{props[:value]}:AVERAGE"
+      series = opts[:series]
+      each_pair_with_index(opts[:series]) do |name, props, i|
+        rrd = RRDRead.rrd_path opts[:host], opts[:metric], props[:rrd]
+#        res << "DEF:avg#{i}=#{rrd}:#{props[:value]}:AVERAGE"
+
+        # display legend with min, max, avg
+        res.concat [ "DEF:min#{i}=#{rrd}:#{props[:value]}:MIN" ]
+        res.concat [ "DEF:avg#{i}=#{rrd}:#{props[:value]}:AVERAGE" ]
+        res.concat [ "DEF:max#{i}=#{rrd}:#{props[:value]}:MAX" ]
       end
       (series.length - 1).downto(0) do |i|
         if i == series.length - 1
@@ -75,6 +83,9 @@ module CollectdPlot
       end
       series.keys.each_with_index do |name, i|
         res << "AREA:area#{i}##{rand_color i, series.size}:#{name}"
+        res.concat [ "GPRINT:min#{i}:MIN:#{opts[:rrd_format]} min" ]
+        res.concat [ "GPRINT:avg#{i}:AVERAGE:#{opts[:rrd_format]} avg" ]
+        res.concat [ "GPRINT:max#{i}:MAX:#{opts[:rrd_format]} max\\l" ]
       end
       res
     end
@@ -116,7 +127,7 @@ module CollectdPlot
         ]
 
         if opts[:graph_type] == :stacked
-          args.concat stacked_args(opts[:series], opts[:host], opts[:metric])
+          args.concat stacked_args(opts)
         else
           args.concat line_args(opts)
         end

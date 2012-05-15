@@ -7,13 +7,14 @@ module CollectdPlot
         opts[:title] = 'memory utilization'
         opts[:ylabel] = 'bytes'
         opts[:series] = {
-          'free'     => {:rrd => 'memory-free', :value => 'value'},
+          'free    ' => {:rrd => 'memory-free', :value => 'value'},
           'buffered' => {:rrd => 'memory-buffered', :value => 'value'},
-          'cached'   => {:rrd => 'memory-cached', :value => 'value'},
-          'used'     => {:rrd => 'memory-used', :value => 'value'}
+          'cached  ' => {:rrd => 'memory-cached', :value => 'value'},
+          'used    ' => {:rrd => 'memory-used', :value => 'value'}
         }
         opts[:line_width] = 2
         opts[:graph_type] = :stacked
+        opts[:rrd_format] = '%5.1lf%s'
       end
     end
   end
