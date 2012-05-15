@@ -6,11 +6,12 @@ module CollectdPlot
       def self.massage_graph_opts!(opts)
         opts[:title] = 'system load'
         opts[:series] = {
-          '1 min'  => {:rrd => 'load', :value => 'shortterm'},
-          '5 min'  => {:rrd => 'load', :value => 'midterm'},
+          '1 min ' => {:rrd => 'load', :value => 'shortterm'},
+          '5 min ' => {:rrd => 'load', :value => 'midterm'},
           '15 min' => {:rrd => 'load', :value => 'longterm'}
         }
-        opts[:line_width] = 2
+        opts[:line_width] = 1
+        opts[:rrd_format] = '%.2lf'
       end
     end
   end

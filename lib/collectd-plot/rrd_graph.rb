@@ -49,8 +49,7 @@ module CollectdPlot
 
     def self.rand_color(i, of_n)
       random = Random.new(i.to_f * of_n.to_f)
-      hsv_to_rgb(i.to_f / of_n.to_f, 0.5, 0.95)
-      #hsv_to_rgb(random.rand, 0.5, 0.95)
+      hsv_to_rgb(i.to_f / of_n.to_f, 0.95, 0.95)
     end
 
     def self.each_pair_with_index(hash)
@@ -84,7 +83,18 @@ module CollectdPlot
       res = []
       each_pair_with_index(opts[:series]) do |name, props, i|
         rrd = RRDRead.rrd_path opts[:host], opts[:metric], props[:rrd]
-        res.concat [ "DEF:value#{i}=#{rrd}:#{props[:value]}:AVERAGE", "LINE#{opts[:line_width]}:value#{i}##{rand_color i, opts[:series].size}:#{name}" ]
+
+        # print a line for this metric
+        res.concat [ "DEF:value#{i}=#{rrd}:#{props[:value]}:AVERAGE" ]
+        res.concat [ "LINE#{opts[:line_width]}:value#{i}##{rand_color i, opts[:series].size}:#{name}" ]
+
+        # display legend with min, max, avg
+        res.concat [ "DEF:min#{i}=#{rrd}:#{props[:value]}:MIN" ]
+        res.concat [ "DEF:avg#{i}=#{rrd}:#{props[:value]}:AVERAGE" ]
+        res.concat [ "DEF:max#{i}=#{rrd}:#{props[:value]}:MAX" ]
+        res.concat [ "GPRINT:min#{i}:MIN:#{opts[:rrd_format]} min" ]
+        res.concat [ "GPRINT:avg#{i}:AVERAGE:#{opts[:rrd_format]} avg" ]
+        res.concat [ "GPRINT:max#{i}:MAX:#{opts[:rrd_format]} max\\l" ]
       end
       res
     end

@@ -1,12 +1,14 @@
-require 'collectd-plot/plugins/memory'
+require 'collectd-plot/plugins/default'
 require 'collectd-plot/plugins/load'
+require 'collectd-plot/plugins/memory'
 
 module CollectdPlot
   module Plugins
 
     PLUGINS = {
       /^memory/ => Memory,
-      /^load/ => Load
+      /^load/ => Load,
+      /.*/ => Default
     }
 
     def self.plugin_for(metric)
