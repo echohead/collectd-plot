@@ -67,7 +67,6 @@ module CollectdPlot
       series = opts[:series]
       each_pair_with_index(opts[:series]) do |name, props, i|
         rrd = RRDRead.rrd_path opts[:host], opts[:metric], props[:rrd]
-#        res << "DEF:avg#{i}=#{rrd}:#{props[:value]}:AVERAGE"
 
         # display legend with min, max, avg
         res.concat [ "DEF:min#{i}=#{rrd}:#{props[:value]}:MIN" ]
@@ -82,7 +81,7 @@ module CollectdPlot
         end
       end
       series.keys.each_with_index do |name, i|
-        res << "AREA:area#{i}##{rand_color i, series.size}:#{name}"
+        res << "AREA:area#{i}##{series[name][:color] ? series[name][:color] : rand_color(i, series.size)}:#{name}"
         res.concat [ "GPRINT:min#{i}:MIN:#{opts[:rrd_format]} min" ]
         res.concat [ "GPRINT:avg#{i}:AVERAGE:#{opts[:rrd_format]} avg" ]
         res.concat [ "GPRINT:max#{i}:MAX:#{opts[:rrd_format]} max\\l" ]
@@ -97,7 +96,7 @@ module CollectdPlot
 
         # print a line for this metric
         res.concat [ "DEF:value#{i}=#{rrd}:#{props[:value]}:AVERAGE" ]
-        res.concat [ "LINE#{opts[:line_width]}:value#{i}##{rand_color i, opts[:series].size}:#{name}" ]
+        res.concat [ "LINE#{opts[:line_width]}:value#{i}##{props[:color] ? props[:color] : rand_color(i, opts[:series].size)}:#{name}" ]
 
         # display legend with min, max, avg
         res.concat [ "DEF:min#{i}=#{rrd}:#{props[:value]}:MIN" ]

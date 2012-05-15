@@ -1,3 +1,4 @@
+require 'collectd-plot/plugins/cpu'
 require 'collectd-plot/plugins/default'
 require 'collectd-plot/plugins/load'
 require 'collectd-plot/plugins/memory'
@@ -6,8 +7,9 @@ module CollectdPlot
   module Plugins
 
     PLUGINS = {
-      /^memory/ => Memory,
+      /^cpu/ => Cpu,
       /^load/ => Load,
+      /^memory/ => Memory,
       /.*/ => Default
     }
 
