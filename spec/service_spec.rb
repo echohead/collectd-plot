@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'the service' do
   before :all do
-    CollectdPlot::Cache.instance.delete_keys 'rrd_remote.*'
+    CollectdPlot::Cache.instance.delete_keys
   end
 
   before :each do
@@ -28,7 +28,7 @@ describe 'the service' do
       }
     end
 
-    it 'shoul list instances for a metric' do
+    it 'should list instances for a metric' do
       JSON.parse(get_json('/hosts/host_a/metric/load').body).should == ['load']
     end
 

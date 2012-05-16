@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'the UI' do
   before :all do
-    CollectdPlot::Cache.instance.delete_keys 'rrd_remote.*'
+    CollectdPlot::Cache.instance.delete_keys
   end
 
   before :each do

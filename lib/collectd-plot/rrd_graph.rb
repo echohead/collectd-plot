@@ -1,5 +1,6 @@
 require 'errand'
 require 'RRD'
+require 'collectd-plot/cache'
 require 'collectd-plot/plugins/all'
 
 module CollectdPlot
@@ -113,30 +114,32 @@ module CollectdPlot
  
     def self.graph(opts)
       massage_graph_opts!(opts)
-      rrd = RRDRead.rrd_path(opts[:host], opts[:metric], opts[:instance])
+      CollectdPlot::Cache.instance.get("graph.#{opts.to_json}") do
+        rrd = RRDRead.rrd_path(opts[:host], opts[:metric], opts[:instance])
 
 
-      temp_file_contents do |tmp|
-        args = [
-          tmp,
-          "--title", "#{opts[:title]} on #{opts[:host]}",
-          '--start', opts[:start],
-          '--end', opts[:end],
-          "--interlace", "--imgformat", "PNG",
-          "--width=#{opts[:x]}",
-          "--height=#{opts[:y]}",
-        ]
+        temp_file_contents do |tmp|
+          args = [
+            tmp,
+            "--title", "#{opts[:title]} on #{opts[:host]}",
+            '--start', opts[:start],
+            '--end', opts[:end],
+            "--interlace", "--imgformat", "PNG",
+            "--width=#{opts[:x]}",
+            "--height=#{opts[:y]}",
+          ]
 
-        if opts[:graph_type] == :stacked
-          args.concat stacked_args(opts)
-        else
-          args.concat line_args(opts)
-        end
+          if opts[:graph_type] == :stacked
+            args.concat stacked_args(opts)
+          else
+            args.concat line_args(opts)
+          end
 
-        args.concat [ '--vertical-label', opts[:ylabel] ] if opts[:ylabel]
+          args.concat [ '--vertical-label', opts[:ylabel] ] if opts[:ylabel]
 
-        RRD.graph(*args)
+          RRD.graph(*args)
+         end
        end
-     end
+    end
   end
 end

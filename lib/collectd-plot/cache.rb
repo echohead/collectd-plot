@@ -10,17 +10,33 @@ module CollectdPlot
       @r = Redis.new :host => CollectdPlot::Config.redis_host
     end
 
+    def namespaced(key)
+      "collectd-plot.#{key}"
+    end
+
     def put(key, value, ttl=60)
-      @r[key] = value
-      @r.expire key, ttl
+      k = namespaced key
+      @r[k] = value
+      @r.expire k, ttl
     end
 
+    # return the cached value, if one exists.
+    # if no value exists, and a block is provided, cache the result of the block and return it.
     def get(key)
-      @r[key]
+      k = namespaced key
+      cached = @r[k]
+      return cached if cached
+      if block_given?
+        val = yield
+        put(k, val)
+        val
+      else
+        nil
+      end
     end
 
-    def delete_keys(pattern)
-      @r.keys(pattern).each { |k| @r.del k }
+    def delete_keys
+      @r.keys(namespaced '').each { |k| @r.del k }
     end
 
   end
