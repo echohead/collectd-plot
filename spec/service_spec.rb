@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe 'the service' do
   before :all do
-    r = CollectdPlot::RRDRemote.redis_conn
-    r.keys('rrd_remote.*').each { |k| r.del k }
+    CollectdPlot::Cache.instance.delete_keys 'rrd_remote.*'
   end
 
   before :each do

@@ -2,6 +2,7 @@
 
 - locals[:metrics].keys.sort.group_by { |n| n.split('-').first }.each do |group|
   %h3
+    %br
     = group.first
   %table
     %tbody

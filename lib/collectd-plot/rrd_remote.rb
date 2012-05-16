@@ -1,5 +1,6 @@
 require 'httparty'
 require 'redis'
+require 'collectd-plot/cache'
 
 # Read RRD data from remote shards.
 # cache the data in redis.
@@ -43,33 +44,6 @@ module CollectdPlot
 
 
 
-    private
-
-    module DummyRedis
-      @@vals = {}
-
-      def self.[]=(key, value)
-        @@vals[key] = value
-      end
-
-      def self.[](key)
-        @@vals[key]
-      end
-
-      def self.get(key)
-        @@vals[key]
-      end
-
-      def self.keys(pattern)
-        reg = Regexp.new pattern
-        @@vals.keys.select { |k| k =~ reg }
-      end
-
-      def self.del(key)
-        @@vals.delete key
-      end
-    end
-
     def self.http_get_json(uri)
       JSON.parse(http_get uri)
     end
@@ -84,33 +58,24 @@ module CollectdPlot
       "rrd_remote.#{key}"
     end
 
-    def self.redis_conn
-      if CollectdPlot::Config.cache
-        Redis.new :host => CollectdPlot::Config.redis_host
-      else
-        DummyRedis
-      end
-    end
-
     def self.cache_put_hosts_for_shard(shard, hosts)
       key = namespaced_key "hosts_for_shard.#{shard}"
-      redis_conn[key] = hosts.to_json
+      CollectdPlot::Cache.instance.put(key, hosts)
     end
 
     def self.cache_put_shard_for_host(host, shard)
       key = namespaced_key "shard_for_host.#{host}"
-      redis_conn[key] = [shard].to_json
+      CollectdPlot::Cache.instance.put(key, [shard])
     end
 
     # return a cached value, if one exists.
     # else, cache the value returned by the block, and return it.
     def self.cache_get(key)
       full_key = namespaced_key(key)
-      r = redis_conn
-      cached = r[full_key]
+      cached = CollectdPlot::Cache.instance.get full_key
       return JSON.parse(cached) if cached
       val = yield
-      r[full_key] = val.to_json
+      CollectdPlot::Cache.instance.put full_key, val.to_json
       val
     end
 
