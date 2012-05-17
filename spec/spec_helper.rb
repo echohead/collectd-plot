@@ -2,9 +2,6 @@
 #require "#{File.dirname(__FILE__)}/../lib/collectd-plot"
 require 'rspec'
 require 'rack/test'
-require 'collectd-plot/config'
-CollectdPlot::Config.clear!
-CollectdPlot::Config.from_file("#{File.dirname(__FILE__)}/fixtures/config.json")
 require 'collectd-plot'
 
 set :environment, :test

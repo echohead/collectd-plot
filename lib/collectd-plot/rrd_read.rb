@@ -6,8 +6,7 @@ require 'RRD'
 module CollectdPlot
   module RRDRead
     # TODO: get this from config.
-puts CollectdPlot::Config.inspect
-    RRDDIR = CollectdPlot::Config.rrd_dir
+    RRDDIR = CollectdPlot::Config.rrd_dir || "#{File.dirname(__FILE__)}/../../spec/fixtures/rrd"
     raise "bad rrd directory: #{RRDDIR}" unless File.exists?(RRDDIR)
 
     def self.rrd_path(host, metric, instance)

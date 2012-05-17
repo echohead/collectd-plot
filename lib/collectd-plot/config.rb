@@ -5,13 +5,11 @@ module CollectdPlot
     @@data = {}
 
     def self.from_hash(data={})
-      check_if_initialized!
       @@data = {}
       update!(data)
     end
 
     def self.from_file(path)
-      check_if_initialized!
       @@data = {}
       update!(JSON.parse(File.read(path)))
     end
@@ -34,10 +32,6 @@ module CollectdPlot
 
   private
 
-    def self.check_if_initialized!
-      raise "already initialized" if defined?(@@data) and !@@data.nil?
-    end
-
     def self.update!(data)
       data.each do |key, value|
         self[key] = value
@@ -54,3 +48,4 @@ module CollectdPlot
 
   end
 end
+

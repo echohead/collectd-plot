@@ -3,7 +3,7 @@
   "default_attributes": {
     "collectd_plot": {
       "root": "/opt/collectd-plot",
-      "git_ref": "bc4d53cae2e279b01562a99bb84835e25c35e5a2"
+      "git_ref": "64afa11a793b553b1a29a89d3bbebf25223cc842"
     }
   },
   "json_class": "Chef::Role",
