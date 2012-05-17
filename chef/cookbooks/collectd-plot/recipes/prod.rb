@@ -18,6 +18,13 @@ packages.each do |p|
   end
 end
 
+template '/etc/collectd-plot.conf' do
+  source 'collectd-plot.conf.erb'
+  mode 0644
+  owner 'root'
+  group 'root'
+end
+
 if not File.exists?('/etc/apache2/sites-available/collectd-plot')
 
   bash 'Install Passenger Apaache mod' do

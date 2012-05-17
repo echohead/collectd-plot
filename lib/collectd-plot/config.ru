@@ -7,5 +7,8 @@ $: << @root.to_s
 $0 = "collectd-plot"
 
 require 'lib/collectd-plot'
+require 'lib/collectd-plot/config'
+
+CollectdPlot::Config.from_file '/etc/collectd-plot.conf'
 
 run CollectdPlot::Service

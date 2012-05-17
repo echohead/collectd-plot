@@ -22,13 +22,13 @@ module CollectdPlot
 
     # return the cached value, if one exists.
     # if no value exists, and a block is provided, cache the result of the block and return it.
-    def get(key)
+    def get(key, ttl=60)
       k = namespaced key
       cached = @r[k]
       return cached if cached
       if block_given?
         val = yield
-        put(k, val)
+        put(key, val, ttl)
         val
       else
         nil

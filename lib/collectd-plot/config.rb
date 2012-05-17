@@ -1,4 +1,4 @@
-
+require 'json'
 
 module CollectdPlot
   module Config

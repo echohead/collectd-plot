@@ -7,12 +7,21 @@ packages = [
   'libxml2-dev',
   'libxslt1-dev',
   'librrd-ruby',
-  'redis-server'
+  'redis-server',
+  'ruby1.9.1-dev'
 ]
 
 packages.each do |p|
   package p do
     action :install
+  end
+end
+
+if node[:collectd_plot][:git_ref]
+  git node[:collectd_plot][:root] do
+    repository 'git://github.com/echohead/collectd-plot.git'
+    revision node[:collectd_plot][:git_ref]
+    action :sync
   end
 end
 

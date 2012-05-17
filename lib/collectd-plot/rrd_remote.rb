@@ -23,7 +23,7 @@ module CollectdPlot
 
 
     def self.hosts_for_shard(s)
-      res = CollectdPlot::Cache.instance.get("hosts_for_shard.#{s}") do
+      res = CollectdPlot::Cache.instance.get("hosts_for_shard.#{s}", 600) do
         http_get_json("#{s}/hosts").to_json
       end
       JSON.parse res
@@ -44,9 +44,6 @@ module CollectdPlot
       end
     end
 
-
-
-
     def self.http_get_json(uri)
       JSON.parse(http_get uri, :headers => {:ccept => 'application/json'})
     end
@@ -59,12 +56,12 @@ module CollectdPlot
 
     def self.cache_put_hosts_for_shard(shard, hosts)
       key = "hosts_for_shard.#{shard}"
-      CollectdPlot::Cache.instance.put(key, hosts.to_json)
+      CollectdPlot::Cache.instance.put(key, hosts.to_json, 600)
     end
 
     def self.cache_put_shard_for_host(host, shard)
       key = "shard_for_host.#{host}"
-      CollectdPlot::Cache.instance.put(key, shard)
+      CollectdPlot::Cache.instance.put(key, shard, 600)
     end
 
   end

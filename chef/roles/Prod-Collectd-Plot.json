@@ -2,7 +2,8 @@
   "name": "Prod-Collectd-Plot",
   "default_attributes": {
     "collectd_plot": {
-      "root": "/vagrant"
+      "root": "/opt/collectd-plot",
+      "git_ref": "4e36034cbd886fa5ae7439cb640be8f042d09ae0"
     }
   },
   "json_class": "Chef::Role",
