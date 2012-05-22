@@ -59,6 +59,15 @@
 
     %tr
     %td
+      %label{:for => "type"} type:
+    %td
+      %input{:type => "text", :name => "type", :class => "text", :value => locals[:params][:type]}
+    %td
+      %div#examples
+        Examples:
+
+    %tr
+    %td
       %label{:for => "start"} start time:
     %td
       %input{:type => "text", :name => "start", :class => "text", :value => locals[:params][:start]}
