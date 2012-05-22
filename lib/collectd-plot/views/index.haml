@@ -3,12 +3,13 @@
   %tbody
     - if CollectdPlot::Config.host_groups and !CollectdPlot::Config.host_groups.empty?
       - CollectdPlot::Config.host_groups.each_pair do |title, regexp|
-        %tr
-          %td
-            %h3= title
-        - locals[:hosts].each do |h|
-          - if h =~ Regexp.new(regexp)
-            - locals[:hosts].delete h
+        - match_hosts = locals[:hosts].select { |h| h =~ Regexp.new(regexp) }
+        - match_hosts.each { |h| locals[:hosts].delete h }
+        - if !match_hosts.empty?
+          %tr
+            %td
+              %h3= title
+          - match_hosts.each do |h|
             %tr
               %td
                 %a{:href => link_to("/hosts/#{h}")}= h
