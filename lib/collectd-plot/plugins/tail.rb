@@ -2,7 +2,7 @@
 
 module CollectdPlot
   module Plugins
-    module Users
+    module Tail
       def self.massage_graph_opts!(opts)
         opts[:title] = "users"
         opts[:ylabel] = 'users'
@@ -15,7 +15,7 @@ module CollectdPlot
       end
 
       def self.types()
-        ['users']
+        []
       end
     end
   end

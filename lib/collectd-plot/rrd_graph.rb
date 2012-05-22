@@ -23,7 +23,7 @@ module CollectdPlot
       opts[:start] ||= 'end-24h'
       opts[:end] ||= 'now'
 
-      plugin = CollectdPlot::Plugins.plugin_for(opts[:metric])
+      plugin = CollectdPlot::Plugins.plugin_by_name(opts[:plugin])
       plugin.massage_graph_opts!(opts) if plugin
 
       opts[:x] ||= 400
@@ -69,7 +69,7 @@ module CollectdPlot
       res = []
       series = opts[:series]
       each_pair_with_index(opts[:series]) do |name, props, i|
-        rrd = RRDRead.rrd_path opts[:host], opts[:metric], props[:rrd]
+        rrd = RRDRead.rrd_path opts[:host], opts[:plugin], opts[:instance], props[:rrd]
 
         # display legend with min, max, avg
         res.concat [ "DEF:min#{i}=#{rrd}:#{props[:value]}:MIN" ]
@@ -95,7 +95,7 @@ module CollectdPlot
     def self.line_args(opts)
       res = []
       each_pair_with_index(opts[:series]) do |name, props, i|
-        rrd = RRDRead.rrd_path opts[:host], opts[:metric], props[:rrd]
+        rrd = RRDRead.rrd_path opts[:host], opts[:plugin], opts[:instance], props[:rrd]
 
         # print a line for this metric
         res.concat [ "DEF:value#{i}=#{rrd}:#{props[:value]}:AVERAGE" ]
@@ -115,7 +115,6 @@ module CollectdPlot
     def self.graph(opts)
       massage_graph_opts!(opts)
       CollectdPlot::Cache.instance.get("graph.#{opts.to_json}") do
-        rrd = RRDRead.rrd_path(opts[:host], opts[:metric], opts[:instance])
 
 
         temp_file_contents do |tmp|

@@ -12,6 +12,10 @@ module CollectdPlot
         opts[:graph_type] = :line
         opts[:rrd_format] = '%.2lf'
       end
+
+      def self.types()
+        []
+      end
     end
   end
 end

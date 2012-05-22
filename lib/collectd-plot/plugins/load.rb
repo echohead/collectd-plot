@@ -13,6 +13,10 @@ module CollectdPlot
         opts[:line_width] = 1
         opts[:rrd_format] = '%.2lf'
       end
+
+      def self.types()
+        ['load']
+      end
     end
   end
 end

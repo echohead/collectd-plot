@@ -16,6 +16,10 @@ module CollectdPlot
         opts[:graph_type] = :stacked
         opts[:rrd_format] = '%5.1lf%s'
       end
+
+      def self.types()
+        ['memory']
+      end
     end
   end
 end

@@ -20,6 +20,10 @@ module CollectdPlot
         opts[:graph_type] = :stacked
         opts[:rrd_format] = '%5.2lf'
       end
+
+      def self.types()
+        ['cpu']
+      end
     end
   end
 end

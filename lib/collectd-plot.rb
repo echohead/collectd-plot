@@ -39,14 +39,14 @@ module CollectdPlot
     end
 
     # show a plugin in the ui, or list plugin instances in json
-    get '/hosts/:h/metric/:m' do |h, m|
-      respond_with :metric, :instances, :host => h, :metric => m, :instances => rrd_reader.list_instances_for(h, m)
+    get '/hosts/:h/plugin/:p' do |h, p|
+      respond_with :metric, :instances, :host => h, :plugin => p, :instances => rrd_reader.list_instances_for(h, p)
     end
 
     # return an entire rrdfile
-    get '/hosts/:h/metric/:m/instance/:i/rrd' do |h, m, i|
+    get '/hosts/:h/plugin/:p/instance/:i/rrd' do |h, p, i|
       content_type 'application/octet-stream'
-      rrd_reader.rrd_file(h, m, i)
+      rrd_reader.rrd_file(h, p, i)
     end
 
     # return rrdtool graph

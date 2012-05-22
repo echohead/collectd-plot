@@ -1,5 +1,6 @@
 require 'errand'
 require 'RRD'
+require 'collectd-plot/plugins/all'
 
 # Read RRD info from the local filesystem.
 
@@ -9,8 +10,13 @@ module CollectdPlot
     RRDDIR = CollectdPlot::Config.rrd_dir || "#{File.dirname(__FILE__)}/../../spec/fixtures/rrd"
     raise "bad rrd directory: #{RRDDIR}" unless File.exists?(RRDDIR)
 
-    def self.rrd_path(host, metric, instance)
-      "#{RRDDIR}/#{host}/#{metric}/#{instance}.rrd"
+    def self.rrd_path(host, plugin, instance, rrd)
+      dir = plugin + (instance.empty? ? '' : "-#{instance}")
+      "#{RRDDIR}/#{host}/#{dir}/#{rrd}.rrd"
+    end
+
+    def self.rrd_files(host, plugin)
+      Dir.glob("#{RRDDIR}/#{host}/#{plugin}/*").map { |f| File.basename f }
     end
 
     def self.list_hosts
@@ -23,14 +29,17 @@ module CollectdPlot
 
     def self.list_metrics_for(h)
       {}.tap do |res|
-        Dir.glob("#{RRDDIR}/#{h}/*").map {|m| File.basename m }.each do |m|
-          res[m] = Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |i| File.basename(i).gsub(/.rrd$/, '') }.sort
+        Dir.glob("#{RRDDIR}/#{h}/*").map {|m| File.basename m }.each do |dir|
+          plugin, instance, types = CollectdPlot::Plugins.dir_info dir
+          res[plugin] ||= {}
+          res[plugin][instance] ||= []
+          res[plugin][instance].concat types
         end
       end
     end
 
     def self.list_instances_for(h, m)
-      Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |m| File.basename m, ".*"}
+      Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |m| File.basename m, ".*" }
     end
 
     def self.rrd_file(host, metric, instance)

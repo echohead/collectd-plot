@@ -22,14 +22,14 @@ describe 'the service' do
 
     it 'should list metrics for a host' do
       JSON.parse(get_json('/hosts/host_a').body).should ==  {
-        "df-root" => ["df_complex-free", "df_complex-reserved", "df_complex-used"],
-        "load" => ["load"],
-        "memory" => ["memory-buffered", "memory-cached", "memory-free", "memory-used"]
+        'df' => { 'root' => [ 'df_complex' ] },
+        'load' => { '' => ['load'] },
+        'memory' => { '' => ['memory'] }
       }
     end
 
     it 'should list instances for a metric' do
-      JSON.parse(get_json('/hosts/host_a/metric/load').body).should == ['load']
+      JSON.parse(get_json('/hosts/host_a/plugin/load').body).should == ['load']
     end
 
     it 'should give an empty hash for unknown hosts' do
@@ -37,7 +37,7 @@ describe 'the service' do
     end
 
     it 'should return the rrd file for a given metric' do
-      actual = get_json('/hosts/host_a/metric/memory/instance/memory-free/rrd').body
+      actual = get_json('/hosts/host_a/plugin/memory/instance/memory-free/rrd').body
       expected = File.read("#{File.dirname(__FILE__)}/fixtures/rrd/host_a/memory/memory-free.rrd")
       actual.should == expected
     end
@@ -76,8 +76,8 @@ describe 'the service' do
 
     it 'should retrieve rrd files from the appropriate shard for a host' do
       rrd_data = "some binary blob"
-      CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/hosts/baz/metric/load/instance/load/rrd").and_return(rrd_data)
-      get_json("/hosts/baz/metric/load/instance/load/rrd").body.should == rrd_data
+      CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/hosts/baz/plugin/load/instance/load/rrd").and_return(rrd_data)
+      get_json("/hosts/baz/plugin/load/instance/load/rrd").body.should == rrd_data
     end
 
   end

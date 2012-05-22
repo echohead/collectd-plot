@@ -1,16 +1,19 @@
 
-
-- locals[:metrics].keys.sort.group_by { |n| n.split('-').first }.each do |group|
+- locals[:metrics].keys.sort.each do |plugin|
+  - graph_num = 0
   %h3
     %br
-    = group.first
+    = plugin
   %table
     %tbody
-    - group.last.each_with_index do |m, i|
-      - if i % 3 == 0
-        %tr
-      %td
-        %a{:href => link_to("/graph_edit", :host => locals[:host], :metric => m, :x => 500, :y => 200)}
-          = m
-          %br
-          %img{:src => link_to("/graph", :host => locals[:host], :metric => m, :x => 300, :y => 100)}
+      - locals[:metrics][plugin].keys.sort.each do |instance|
+        - locals[:metrics][plugin][instance].each do |type|
+          - if graph_num % 3 == 0
+            %tr
+          %td
+            %a{:href => link_to("/graph_edit", :host => locals[:host], :plugin => plugin, :instance => instance, :type => type, :x => 400, :y => 200)}
+              = "#{plugin}#{instance.empty? ? '' : '-' + instance}"
+              %br
+              %img{:src => link_to("/graph", :host => locals[:host], :plugin => plugin, :instance => instance, :type => type, :x => 300, :y => 100)}
+          - graph_num += 1
+
