@@ -13,7 +13,7 @@ module CollectdPlot
         opts[:rrd_format] = '%.2lf'
       end
 
-      def self.types()
+      def self.types(instance = nil)
         []
       end
     end

@@ -35,7 +35,7 @@ module CollectdPlot
         opts[:rrd_format] = '%5.1lf%s'
       end
 
-      def self.types()
+      def self.types(instance = nil)
         ['delay', 'frequency_offset', 'time_dispersion', 'time_offset']
       end
     end

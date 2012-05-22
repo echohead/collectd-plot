@@ -30,7 +30,7 @@ module CollectdPlot
         opts[:rrd_format] = '%5.1lf%s'
       end
 
-      def self.types()
+      def self.types(instance = nil)
         ['disk_merged', 'disk_octets', 'disk_ops', 'disk_time']
       end
     end

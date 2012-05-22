@@ -27,7 +27,7 @@ module CollectdPlot
         opts[:rrd_format] = '%5.1lf%s'
       end
 
-      def self.types()
+      def self.types(instance = nil)
         ['if_errors', 'if_packets', 'if_octets']
       end
     end

@@ -45,7 +45,7 @@ module CollectdPlot
         opts[:rrd_format] = '%5.1lf%s'
       end
 
-      def self.types()
+      def self.types(instance = nil)
         ['vmpage_faults', 'vmpage_io', 'vmpage_number']
       end
     end

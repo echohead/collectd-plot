@@ -16,7 +16,7 @@ module CollectdPlot
         opts[:rrd_format] = '%5.1lf%s'
       end
 
-      def self.types()
+      def self.types(instance = nil)
         ['df_complex']
       end
     end

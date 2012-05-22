@@ -23,7 +23,7 @@ module CollectdPlot
       Load => /^load$/,
       Memory => /^memory$/,
       Ntpd => /^ntpd$/,
-      Processes => /^processes/,
+      Processes => /^processes-?/,
       Tail => /^tail-/,
       Uptime => /^uptime$/,
       Users => /^users$/,
@@ -41,16 +41,20 @@ module CollectdPlot
       end
     end
 
+    def self.plugin_name(dir_name)
+      plugin_for(dir_name).to_s.gsub(/.*::/, '').downcase
+    end
+
     def self.instance_for(dir_name)
       dir_name.gsub(PLUGINS[plugin_for(dir_name)], '')
     end
 
     def self.types_for(dir_name)
-      plugin_for(dir_name).types
+      plugin_for(dir_name).types(instance_for(dir_name))
     end
 
     def self.dir_info(dir_name)
-      [ plugin_for(dir_name).to_s.gsub(/.*::/, '').downcase, instance_for(dir_name), types_for(dir_name) ]
+      [ plugin_name(dir_name), instance_for(dir_name), types_for(dir_name) ]
     end
   end
 end
