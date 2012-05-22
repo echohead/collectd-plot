@@ -57,3 +57,6 @@ if not File.exists?('/etc/apache2/sites-available/collectd-plot')
 
 end
 
+service 'apache2' do
+  :restart
+end
