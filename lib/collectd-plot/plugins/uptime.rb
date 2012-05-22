@@ -4,10 +4,10 @@ module CollectdPlot
   module Plugins
     module Uptime
       def self.massage_graph_opts!(opts)
-        opts[:title] = "users"
-        opts[:ylabel] = 'users'
+        opts[:title] = "uptime"
+        opts[:ylabel] = 'days'
         opts[:series] = {
-          'users' => {:rrd => 'users', :value => 'value'}
+          'current' => {:rrd => 'uptime', :value => 'value'}
         }
         opts[:line_width] = 1
         opts[:graph_type] = :line
@@ -15,7 +15,7 @@ module CollectdPlot
       end
 
       def self.types(instance = nil)
-        []
+        ['uptime']
       end
     end
   end
