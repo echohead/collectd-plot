@@ -35,7 +35,7 @@ module CollectdPlot
           ['active_anon', 'active_file', 'anon_pages', 'bounce', 'dirty', 'file_pages', 'free_pages', 'inactive_anon',
            'inactive_file', 'mapped', 'mlock', 'page_table_pages', 'slab_reclaimable', 'slab_unreclaimable', 'unevictable',
            'unstable', 'writeback', 'writeback_temp'].each do |s|
-            opts[:series][s] = {:rrd => "vmpage_number-#{s}", :value => 'value'}
+            opts[:series][s + (' '*(18-s.length))] = {:rrd => "vmpage_number-#{s}", :value => 'value'}
           end
           opts[:graph_type] = :stacked
         else raise "unknown type: #{opts[:type]}"
