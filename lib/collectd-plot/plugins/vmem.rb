@@ -17,6 +17,7 @@ module CollectdPlot
             'minor' => {:rrd => opts[:type], :value => 'minflt', :color => '0000CC'},
             'major' => {:rrd => opts[:type], :value => 'majflt', :color => 'FF0000'}
           }
+          opts[:graph_time] = :line
         when 'vmpage_io'
           opts[:title] = 'page i/o'
           opts[:ylabel] = ''
@@ -26,6 +27,7 @@ module CollectdPlot
             'swap   (in) ' => {:rrd => 'vmpage_io-swap', :value => 'in'},
             'swap   (out)' => {:rrd => 'vmpage_io-swap', :value => 'out'}
           }
+          opts[:graph_type] = :line
         when 'vmpage_number'
           opts[:title] = 'pages'
           opts[:ylabel] = ''
@@ -35,11 +37,11 @@ module CollectdPlot
            'unstable', 'writeback', 'writeback_temp'].each do |s|
             opts[:series][s] = {:rrd => "vmpage_number-#{s}", :value => 'value'}
           end
+          opts[:graph_type] = :stacked
         else raise "unknown type: #{opts[:type]}"
         end
 
         opts[:line_width] = 1
-        opts[:graph_type] = :stacked
         opts[:rrd_format] = '%5.1lf%s'
       end
 
