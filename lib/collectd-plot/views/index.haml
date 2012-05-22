@@ -9,7 +9,7 @@
           %tr
             %td
               %h3= title
-          - match_hosts.each do |h|
+          - match_hosts.sort.each do |h|
             %tr
               %td
                 %a{:href => link_to("/hosts/#{h}")}= h
