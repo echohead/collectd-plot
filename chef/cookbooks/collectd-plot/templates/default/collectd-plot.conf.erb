@@ -8,4 +8,8 @@
   "rrd_servers": [
   ]
 
+  <% if node['collectd-plot']['host_groups'] %>
+  "host_groups": <%= node['collectd-plot']['host_groups'].to_json %>
+  <% end %>
+
 }
