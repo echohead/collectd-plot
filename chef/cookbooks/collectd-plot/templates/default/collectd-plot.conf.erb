@@ -6,10 +6,14 @@
   "redis_host": "127.0.0.1",
 
   "rrd_servers": [
-  ]
+  ],
 
-  <% if node['collectd-plot']['host_groups'] %>
-  "host_groups": <%= node['collectd-plot']['host_groups'].to_json %>
+  "host_groups": {
+  <% i = 0 %>
+  <% node['collectd-plot']['host_groups'].each_pair do |title, regex| %>
+    "<%= title %>": "<%= regex %>"<%= i == node['collectd-plot']['host_groups'].size - 1 ? '' : ',' %>
+     <% i += 1 %>
   <% end %>
+  }
 
 }

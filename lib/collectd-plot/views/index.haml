@@ -1,7 +1,7 @@
 
 %table
   %tbody
-    - if CollectdPlot::Config.host_groups
+    - if CollectdPlot::Config.host_groups and !CollectdPlot::Config.host_groups.empty?
       - CollectdPlot::Config.host_groups.each_pair do |title, regexp|
         %tr
           %td
