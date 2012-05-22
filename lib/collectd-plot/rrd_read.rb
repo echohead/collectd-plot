@@ -42,8 +42,8 @@ module CollectdPlot
       Dir.glob("#{RRDDIR}/#{h}/#{m}/*").map { |m| File.basename m, ".*" }
     end
 
-    def self.rrd_file(host, metric, instance)
-      File.read(rrd_path(host, metric, instance))
+    def self.rrd_file(host, plugin, instance, rrd)
+      File.read(rrd_path(host, instance, instance, rrd))
     end
 
     def self.rrd_data(host, metric, instance, start, stop)

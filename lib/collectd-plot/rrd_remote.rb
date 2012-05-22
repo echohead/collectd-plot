@@ -36,9 +36,9 @@ module CollectdPlot
       CollectdPlot::Cache.instance.get("shard_for_host.#{h}")
     end
 
-    def self.rrd_file(host, metric, instance)
+    def self.rrd_file(host, plugin, instance, rrd)
       shard = shard_for_host(host)
-      uri = "#{shard}/hosts/#{host}/plugin/#{metric}/instance/#{instance}/rrd"
+      uri = "#{shard}/hosts/#{host}/plugin/#{plugin}/instance/#{instance}/rrd/#{rrd}"
       CollectdPlot::Cache.instance.get("rrd.#{uri}") do
         http_get(uri)
       end
