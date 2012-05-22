@@ -24,7 +24,7 @@ describe 'config' do
 
   it 'should be able to initialize from a json file' do
     CollectdPlot::Config.from_file("#{File.dirname(__FILE__)}/fixtures/config.json")
-    CollectdPlot::Config.arbitrary_key.should == 'foobar'
+    CollectdPlot::Config.arbitrary_key.should == 'foobaz'
   end
 
 end
