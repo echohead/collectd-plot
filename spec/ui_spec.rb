@@ -20,6 +20,10 @@ describe 'the UI' do
       get('/hosts').body.should =~ /host_a/
     end
 
+    it 'should group and label hosts by the "host_groups" config property' do
+      get('/hosts').body.should =~ /Host A/
+    end
+
     it 'should list metrics for a host' do
       get('/hosts/host_a').body.should =~ /df/
     end

@@ -10,11 +10,11 @@
 
   "redis_host": "127.0.0.1",
 
-  "arbitrary_key": "foobar",
-
   "host_groups": {
-    "Host A": "host_a*",
-    "Host B": "host_b*",
-    "Other": ".*"
-   }
+    "Hostgroup A": "host_a",
+    "Hostgroup B": "host_b"
+   },
+
+  "arbitrary_key": "foobaz"
+
 }

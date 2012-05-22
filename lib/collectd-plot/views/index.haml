@@ -1,7 +1,30 @@
 
 %table
   %tbody
-    - locals[:hosts].each do |h|
-      %tr
-        %td
-          %a{:href => link_to("/hosts/#{h}")}= h
+    - if CollectdPlot::Config.host_groups
+      - CollectdPlot::Config.host_groups.each_pair do |title, regexp|
+        %tr
+          %td
+            %h3= title
+        - locals[:hosts].each do |h|
+          - if h =~ Regexp.new(regexp)
+            - locals[:hosts].delete h
+            %tr
+              %td
+                %a{:href => link_to("/hosts/#{h}")}= h
+
+      - if !locals[:hosts].empty?
+        %tr
+          %td
+            %h3 Others
+      - locals[:hosts].each do |h|
+        %tr
+          %td
+            %a{:href => link_to("/hosts/#{h}")}= h
+
+
+    - else
+      - locals[:hosts].sort.each do |h|
+        %tr
+          %td
+            %a{:href => link_to("/hosts/#{h}")}= h
