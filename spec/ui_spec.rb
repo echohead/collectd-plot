@@ -25,11 +25,11 @@ describe 'the UI' do
     end
 
     it 'should list metrics for a host' do
-      get('/hosts/host_a').body.should =~ /df/
+      get('/host/host_a').body.should =~ /df/
     end
 
     it 'should show a graph on a metric page' do
-      get('/hosts/host_a/plugin/load').body.should =~ /img src='\/graph\?.*host_a/
+      get('/host/host_a/plugin/load').body.should =~ /img src='\/graph\?.*host_a/
     end
 
   end

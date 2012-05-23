@@ -12,7 +12,7 @@
           - match_hosts.sort.each do |h|
             %tr
               %td
-                %a{:href => link_to("/hosts/#{h}")}= h
+                %a{:href => link_to("/host/#{h}")}= h
 
       - if !locals[:hosts].empty?
         %tr
@@ -21,11 +21,11 @@
       - locals[:hosts].each do |h|
         %tr
           %td
-            %a{:href => link_to("/hosts/#{h}")}= h
+            %a{:href => link_to("/host/#{h}")}= h
 
 
     - else
       - locals[:hosts].sort.each do |h|
         %tr
           %td
-            %a{:href => link_to("/hosts/#{h}")}= h
+            %a{:href => link_to("/host/#{h}")}= h

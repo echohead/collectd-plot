@@ -34,12 +34,12 @@ module CollectdPlot
     end
 
     # list metrics for host
-    get '/hosts/:h' do |h|
+    get '/host/:h' do |h|
       respond_with :host, :metrics, :host => h, :metrics => rrd_reader.list_metrics_for(h)
     end
 
     # show a plugin in the ui, or list plugin instances in json
-    get '/hosts/:h/plugin/:p' do |h, p|
+    get '/host/:h/plugin/:p' do |h, p|
       respond_with :metric, :instances, :host => h, :plugin => p, :instances => rrd_reader.list_instances_for(h, p)
     end
 

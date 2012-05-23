@@ -21,7 +21,7 @@ describe 'the service' do
     end
 
     it 'should list metrics for a host' do
-      JSON.parse(get_json('/hosts/host_a').body).should ==  {
+      JSON.parse(get_json('/host/host_a').body).should ==  {
         'cpu' => { '0' => ['cpu'] },
         'df' => { 'root' => [ 'df_complex' ] },
         'load' => { '' => ['load'] },
@@ -30,11 +30,11 @@ describe 'the service' do
     end
 
     it 'should list instances for a metric' do
-      JSON.parse(get_json('/hosts/host_a/plugin/load').body).should == ['load']
+      JSON.parse(get_json('/host/host_a/plugin/load').body).should == ['load']
     end
 
     it 'should give an empty hash for unknown hosts' do
-      JSON.parse(get_json('/hosts/foobar').body).should == {}
+      JSON.parse(get_json('/host/foobar').body).should == {}
     end
 
     it 'should return the rrd file for a given metric' do
