@@ -2,6 +2,21 @@
 %h2
   = locals[:host]
 
+%table
+  %tbody
+    %tr
+    // show load and memory above the fold.
+    - ['load', 'memory'].each do |plugin|
+      - locals[:metrics].delete plugin
+      - instance = ''; type = plugin
+      %td
+        %a{:href => link_to("/graph_edit", :host => locals[:host], :plugin => plugin, :instance => instance, :type => type, :x => 400, :y => 200)}
+          = "#{plugin}#{instance.empty? ? '' : '-' + instance}"
+          %br
+          %img{:src => link_to("/graph", :host => locals[:host], :plugin => plugin, :instance => instance, :type => type, :x => 300, :y => 100)}
+
+
+// show remaining metrics within collapsed divs.
 - locals[:metrics].keys.sort.each do |plugin|
   - graph_num = 0
   %h3
