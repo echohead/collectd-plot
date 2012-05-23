@@ -1,4 +1,7 @@
 
+%h2
+  = locals[:host]
+
 - locals[:metrics].keys.sort.each do |plugin|
   - graph_num = 0
   %h3
