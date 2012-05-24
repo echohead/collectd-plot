@@ -2,10 +2,10 @@
 
 module CollectdPlot
   module Plugins
-    module Tail
+    module Exec
 
       def self.get_series(host, instance)
-        RRDRead.rrd_files(host, "tail-#{instance}").map { |f| f.gsub(/.rrd$/, '') }
+        RRDRead.rrd_files(host, "exec-#{instance}").map { |f| f.gsub(/.rrd$/, '') }
       end
  
       def self.massage_graph_opts!(opts)
@@ -23,7 +23,7 @@ module CollectdPlot
       end
 
       def self.types(instance = nil)
-        ['tail']
+        ['exec']
       end
     end
   end

@@ -16,6 +16,8 @@ module CollectdPlot
 
 
     def self.massage_graph_opts!(opts)
+      opts[:x] ||= 400
+      opts[:y] ||= 300
       opts[:x] = 800 if opts[:x].to_i > 800
       opts[:y] = 800 if opts[:y].to_i > 800
       opts[:x] = 100 if opts[:x].to_i < 100
@@ -26,8 +28,6 @@ module CollectdPlot
       plugin = CollectdPlot::Plugins.plugin_by_name(opts[:plugin])
       plugin.massage_graph_opts!(opts) if plugin
 
-      opts[:x] ||= 400
-      opts[:y] ||= 300
       opts[:title] ||= "#{opts[:host]} #{opts[:instance]}"
       opts[:line_width] ||= 2
       opts[:graph_type] ||= :line
