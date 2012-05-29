@@ -1,4 +1,4 @@
-<VirtualHost *:80>
+<VirtualHost *:8080>
    DocumentRoot <%= node[:collectd_plot][:root] %>/lib/collectd-plot/public
    <Directory /vagrant/lib/collectd-plot/public>
       # This relaxes Apache security settings.
