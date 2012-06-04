@@ -25,6 +25,9 @@ module CollectdPlot
     end
 
 
+    # show classy backtrace UI even in production, for now
+    set :show_exceptions, true
+
     get '/' do
       redirect '/hosts'
     end
