@@ -14,10 +14,10 @@ def app
   CollectdPlot::Service
 end
 
-def get_json(path)
-  get(path, {}, {'HTTP_ACCEPT' => 'application/json'})
+def get_json(path, params = {})
+  get(path, params, {'HTTP_ACCEPT' => 'application/json'})
 end
 
-def get_csv(path)
-  get(path, {}, {'HTTP_ACCEPT' => 'application/csv'})
+def get_csv(path, params = {})
+  get(path, params, {'HTTP_ACCEPT' => 'text/csv'})
 end

@@ -39,7 +39,6 @@ describe 'the service' do
 
     it 'should return the rrd file for a given metric' do
       actual = get('/rrd/host_a/cpu/0/cpu-user').body
-#      actual = get('/host/host_a/plugin/cpu/instance/0/rrd/cpu-user').body
       expected = File.read("#{File.dirname(__FILE__)}/fixtures/rrd/host_a/cpu-0/cpu-user.rrd")
       actual.should == expected
     end
@@ -48,10 +47,37 @@ describe 'the service' do
       pending 'TODO'
     end
 
-    it 'returns rrd data for a metric' do
-      start = 1335739560
-      stop = start + 1000
-      pending 'TODO'
+    it 'returns rrd data for a metric as csv' do
+      params = {
+       :start => 1335739560,
+       :end => 1335740560,
+       :host => 'host_a',
+       :plugin => 'memory',
+       :instance => '',
+       :rrd => 'memory-free'
+      }
+      get_csv('/rrd_data', params).body.should ==
+<<eos
+time,value
+1335739560,1502602000.0
+1335739620,1502610000.0
+1335739680,1502610000.0
+1335739740,1502610000.0
+1335739800,1502696000.0
+1335739860,1503068000.0
+1335739920,1503180000.0
+1335739980,1503180000.0
+1335740040,1503180000.0
+1335740100,1503080000.0
+1335740160,1502738000.0
+1335740220,1502994000.0
+1335740280,1503022000.0
+1335740340,1502750000.0
+1335740400,1502724000.0
+1335740460,1502612000.0
+1335740520,1502594000.0
+1335740580,0.0
+eos
     end
 
   end

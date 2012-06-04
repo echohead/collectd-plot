@@ -30,17 +30,17 @@ module CollectdPlot
     end
 
     get '/hosts' do
-      respond_with :index, :hosts, :hosts => rrd_reader.list_hosts.sort
+      respond_with_key :index, :hosts, :hosts => rrd_reader.list_hosts.sort
     end
 
     # list metrics for host
     get '/host/:h' do |h|
-      respond_with :host, :metrics, :host => h, :metrics => rrd_reader.list_metrics_for(h)
+      respond_with_key :host, :metrics, :host => h, :metrics => rrd_reader.list_metrics_for(h)
     end
 
     # show a plugin in the ui, or list plugin instances in json
     get '/host/:h/plugin/:p' do |h, p|
-      respond_with :metric, :instances, :host => h, :plugin => p, :instances => rrd_reader.list_instances_for(h, p)
+      respond_with_key :metric, :instances, :host => h, :plugin => p, :instances => rrd_reader.list_instances_for(h, p)
     end
 
     # return an entire rrdfile
@@ -48,10 +48,13 @@ module CollectdPlot
       rrd_reader.rrd_file(h, p, i, r)
     end
 
+    get '/rrd_data' do
+      respond_with :data, RRDRead.rrd_data(params[:host], params[:plugin], params[:instance], params[:rrd], params[:start], params[:end])
+    end
+
     # return rrdtool graph
     get '/graph' do
       content_type 'image/png'
-      #RRDRead.rrd_graph(opts[:host], opts[:metric], opts[:instance], 1335739560, 1335740560, opts[:value])
       RRDGraph.graph(params)
     end
 
@@ -59,11 +62,11 @@ module CollectdPlot
     get '/graph_edit' do
       params[:end] ||= 'now'
       params[:start] ||= 'end-24h'
-      respond_with :graph_edit, :params, :params => params
+      respond_with_key :graph_edit, :params, :params => params
     end
 
     get '/sandbox' do
-      data = RRDRead.rrd_data('host_a', 'memory', 'memory-free', 1335739560, 1335740560)
+      data = RRDRead.rrd_data('host_a', 'memory', '', 'memory-free', 1335739560, 1335740560)
       data.inspect
     end
   end
