@@ -44,8 +44,7 @@ module CollectdPlot
     end
 
     # return an entire rrdfile
-    get '/host/:h/plugin/:p/instance/:i/rrd/:r' do |h, p, i, r|
-      content_type 'application/octet-stream'
+    get '/rrd/:h/:p/:i/:r' do |h, p, i, r|
       rrd_reader.rrd_file(h, p, i, r)
     end
 

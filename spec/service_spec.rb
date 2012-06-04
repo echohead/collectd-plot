@@ -38,7 +38,8 @@ describe 'the service' do
     end
 
     it 'should return the rrd file for a given metric' do
-      actual = get('/host/host_a/plugin/cpu/instance/0/rrd/cpu-user').body
+      actual = get('/rrd/host_a/cpu/0/cpu-user').body
+#      actual = get('/host/host_a/plugin/cpu/instance/0/rrd/cpu-user').body
       expected = File.read("#{File.dirname(__FILE__)}/fixtures/rrd/host_a/cpu-0/cpu-user.rrd")
       actual.should == expected
     end
@@ -77,8 +78,8 @@ describe 'the service' do
 
     it 'should retrieve rrd files from the appropriate shard for a host' do
       rrd_data = "some binary blob"
-      CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/host/baz/plugin/cpu/instance/0/rrd/cpu-idle").and_return(rrd_data)
-      get_json("/host/baz/plugin/cpu/instance/0/rrd/cpu-idle").body.should == rrd_data
+      CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/rrd/baz/cpu/0/cpu-idle").and_return(rrd_data)
+      get_json("/rrd/baz/cpu/0/cpu-idle").body.should == rrd_data
     end
 
   end

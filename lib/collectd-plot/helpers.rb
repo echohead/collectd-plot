@@ -19,7 +19,7 @@ module Sinatra
   module RespondWithHelper
     def respond_with(name, json_key, data)
       (request.accept.concat ['text/html']).each do |type|
-        case type.downcase
+        case type.downcase.strip
         when 'application/json'
           content_type :json
           halt data[json_key].to_json
