@@ -43,10 +43,6 @@ describe 'the service' do
       actual.should == expected
     end
 
-    it 'should return rrd data for a host and time interval' do
-      pending 'TODO'
-    end
-
     it 'returns rrd data for a metric as csv' do
       params = {
        :start => 1335739560,
