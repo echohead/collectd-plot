@@ -53,7 +53,7 @@ module CollectdPlot
       data.each_with_index do |v, i|
         res << [fstart + step * i, v.first]
       end
-      res
+      res[0...(res.length - 1)]
     end
 
   end
