@@ -2,7 +2,7 @@
 
 module CollectdPlot
   module Plugins
-    module UnixSock
+    module Unixsock
 
       def self.get_series(host, instance)
         RRDRead.rrd_files(host, "unixsock-#{instance}").map { |f| f.gsub(/.rrd$/, '') }

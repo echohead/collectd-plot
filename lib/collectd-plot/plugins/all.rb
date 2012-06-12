@@ -28,7 +28,7 @@ module CollectdPlot
       Ntpd => /^ntpd$/,
       Processes => /^processes-?/,
       Tail => /^tail-/,
-      UnixSock => /^unixsock-/,
+      Unixsock => /^unixsock-/,
       Uptime => /^uptime$/,
       Users => /^users$/,
       Vmem => /^vmem$/,
