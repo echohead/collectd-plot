@@ -2,12 +2,14 @@ require 'collectd-plot/plugins/cpu'
 require 'collectd-plot/plugins/default'
 require 'collectd-plot/plugins/df'
 require 'collectd-plot/plugins/disk'
+require 'collectd-plot/plugins/exec'
 require 'collectd-plot/plugins/interface'
 require 'collectd-plot/plugins/load'
 require 'collectd-plot/plugins/memory'
 require 'collectd-plot/plugins/ntpd'
 require 'collectd-plot/plugins/processes'
 require 'collectd-plot/plugins/tail'
+require 'collectd-plot/plugins/unixsock'
 require 'collectd-plot/plugins/uptime'
 require 'collectd-plot/plugins/users'
 require 'collectd-plot/plugins/vmem'
@@ -19,12 +21,14 @@ module CollectdPlot
       Cpu => /^cpu-/,
       Df => /^df-/,
       Disk => /^disk-/,
+      Exec => /^exec-/,
       Interface => /^interface-/,
       Load => /^load$/,
       Memory => /^memory$/,
       Ntpd => /^ntpd$/,
       Processes => /^processes-?/,
       Tail => /^tail-/,
+      UnixSock => /^unixsock-/,
       Uptime => /^uptime$/,
       Users => /^users$/,
       Vmem => /^vmem$/,
