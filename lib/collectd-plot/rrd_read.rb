@@ -53,7 +53,7 @@ module CollectdPlot
       data.each_with_index do |v, i|
         res << [fstart + step * i, v.first]
       end
-      res[0...(res.length - 1)].map { |n| n.nan? ? nil : n }
+      res[0...(res.length - 1)].map { |point| point.last.nan? ? [point.first, nil] : point }
     end
 
   end
