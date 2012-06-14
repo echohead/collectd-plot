@@ -52,7 +52,7 @@ module CollectdPlot
     end
 
     get '/rrd_data' do
-      respond_with :data, RRDRead.rrd_data(params[:host], params[:plugin], params[:instance], params[:rrd], params[:start], params[:end])
+      respond_with :data, RRDRead.rrd_data(params[:host], params[:plugin], params[:instance], params[:rrd], params[:value], params[:start], params[:end])
     end
 
     # return rrdtool graph

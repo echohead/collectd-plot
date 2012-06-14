@@ -46,7 +46,7 @@ module CollectdPlot
       File.read(rrd_path(host, plugin, instance, rrd))
     end
 
-    def self.rrd_data(host, plugin, instance, rrd, start, stop)
+    def self.rrd_data(host, plugin, instance, rrd, value, start, stop)
       (fstart, fend, vals, data) = RRD.fetch(rrd_path(host, plugin, instance, rrd), '--start', start, '--end', stop, 'AVERAGE')
       step = (fend - fstart) / (data.length - 1)
       res = []
