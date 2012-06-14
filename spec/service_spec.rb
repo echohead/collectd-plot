@@ -22,7 +22,7 @@ describe 'the service' do
 
     it 'should list metrics for a host' do
       JSON.parse(get_json('/host/host_a').body).should == 
-{}
+{"cpu"=>{"0"=>[{"rrd"=>"cpu-idle", "value"=>"value"}, {"rrd"=>"cpu-nice", "value"=>"value"}, {"rrd"=>"cpu-user", "value"=>"value"}, {"rrd"=>"cpu-wait", "value"=>"value"}, {"rrd"=>"cpu-system", "value"=>"value"}, {"rrd"=>"cpu-softirq", "value"=>"value"}, {"rrd"=>"cpu-interrupt", "value"=>"value"}, {"rrd"=>"cpu-steal", "value"=>"value"}]}, "df"=>{"root"=>[{"rrd"=>"df_complex-reserved", "value"=>"value"}, {"rrd"=>"df_complex-free", "value"=>"value"}, {"rrd"=>"df_complex-used", "value"=>"value"}]}, "load"=>{""=>[{"rrd"=>"load", "value"=>"shortterm"}, {"rrd"=>"load", "value"=>"midterm"}, {"rrd"=>"load", "value"=>"longterm"}]}, "memory"=>{""=>[{"rrd"=>"memory-free", "value"=>"value"}, {"rrd"=>"memory-buffered", "value"=>"value"}, {"rrd"=>"memory-cached", "value"=>"value"}, {"rrd"=>"memory-used", "value"=>"value"}]}}
     end
 
     it 'should list instances for a metric' do

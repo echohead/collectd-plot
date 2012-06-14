@@ -55,11 +55,12 @@ module CollectdPlot
 
     def self.rrds_for(dir_name)
       p = plugin_for dir_name
-      res = []
-      p.types(instance_for(dir_name)).each do |t|
-        opts = { :type => t}
-        p.massage_graph_opts! opts
-        res.concat opts[:series].values.map { |h| { :rrd => h[:rrd], :value => h[:value]} }
+      [].tap do |res|
+        p.types(instance_for(dir_name)).each do |t|
+          opts = { :type => t}
+          p.massage_graph_opts! opts
+          res.concat opts[:series].values.map { |h| { :rrd => h[:rrd], :value => h[:value]} }
+        end
       end
     end
 
