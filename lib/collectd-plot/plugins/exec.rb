@@ -7,7 +7,7 @@ module CollectdPlot
       def self.get_series(host, instance)
         RRDRead.rrd_files(host, "exec-#{instance}").map { |f| f.gsub(/.rrd$/, '') }
       end
- 
+
       def self.massage_graph_opts!(opts)
         opts[:title] = opts[:instance]
         opts[:ylabel] = ''

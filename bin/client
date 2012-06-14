@@ -1,0 +1,78 @@
+#!/usr/bin/ruby
+require 'fileutils'
+require 'rubygems'
+require 'httparty'
+require 'json'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.on('-h', '--help', 'Display this screen')           { exit }
+  opts.on('-s', '--start TIMESTAMP', 'Start time')         { |start| options[:start] = start }
+  opts.on('-e', '--end   TIMESTAMP',   'End time')         { |e| options[:end] = e }
+  opts.on('-o', '--out   DIRECTORY',   'Output directory') { |o| options[:out] = o }
+end.parse!
+options[:start] ||= 'end-24h'
+options[:end] ||= 'now'
+options[:out] ||= Dir.pwd
+
+class CPClient
+  include HTTParty
+  base_uri 'http://15.185.224.226:8080'
+  headers 'Accept' => 'application/json'
+end
+
+
+CPClient.get('/hosts').each do |h|
+  puts "dumping #{h}"
+  hostdir = "#{options[:out]}/#{h}"
+  Dir.mkdir hostdir unless File.exists? hostdir
+  puts JSON.pretty_generate(JSON.parse(CPClient.get("/host/#{h}").body))
+  JSON.parse(CPClient.get("/host/#{h}").body).each_pair do |plugin, rest|
+    rest.each_pair do |instance, types|
+      types.each do |t|
+        resp = CPClient.get('/rrd_data',
+          :query => {
+            :host => h,
+            :plugin => plugin,
+            :instance => instance,
+            :rrd => t,
+            :start => options[:start],
+            :end => options[:end]
+          },
+          :headers => { 'Accept' => 'text/csv' }
+        )
+        case resp.code
+          when 200
+            outdir = "#{hostdir}/#{plugin}/#{instance}/"
+            FileUtils.mkdir_p outdir
+            File.open("#{outdir}/#{t}.csv", 'w') { |f| f.write resp.body }
+            puts "success : #{h} #{plugin} #{instance} #{t}"
+          else
+            puts "failure : #{h} #{plugin} #{instance} #{t}"
+        end
+      end
+    end
+  end
+end
+
+=begin
+def pretty(resp)
+  JSON.pretty_generate(JSON.parse(resp.body))
+end
+
+
+
+if options[:create] then
+  puts pretty MRClient.post('/clusters', :body => create_cluster_request.to_json)
+end
+
+if options[:show] then
+  puts pretty MRClient.get("/cluster/#{options[:id]}")
+end
+
+if options[:destroy] then
+  puts pretty MRClient.delete("/cluster/#{options[:id]}")
+end
+=end
+
