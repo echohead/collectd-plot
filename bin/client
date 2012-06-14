@@ -26,17 +26,16 @@ end
 CPClient.get('/hosts').each do |h|
   puts "dumping #{h}"
   hostdir = "#{options[:out]}/#{h}"
-  Dir.mkdir hostdir unless File.exists? hostdir
-  puts JSON.pretty_generate(JSON.parse(CPClient.get("/host/#{h}").body))
   JSON.parse(CPClient.get("/host/#{h}").body).each_pair do |plugin, rest|
     rest.each_pair do |instance, types|
-      types.each do |t|
+      types.each do |hash|
         resp = CPClient.get('/rrd_data',
           :query => {
             :host => h,
             :plugin => plugin,
             :instance => instance,
-            :rrd => t,
+            :rrd => hash['rrd'],
+            :value => hash['value'],
             :start => options[:start],
             :end => options[:end]
           },
@@ -44,35 +43,15 @@ CPClient.get('/hosts').each do |h|
         )
         case resp.code
           when 200
+            puts "    success: #{plugin}-#{instance}-#{hash['rrd']}-#{hash['value']}"
             outdir = "#{hostdir}/#{plugin}/#{instance}/"
             FileUtils.mkdir_p outdir
-            File.open("#{outdir}/#{t}.csv", 'w') { |f| f.write resp.body }
-            puts "success : #{h} #{plugin} #{instance} #{t}"
+            File.open("#{outdir}/#{hash['rrd']}-#{hash['value']}.csv", 'w') { |f| f.write resp.body }
           else
-            puts "failure : #{h} #{plugin} #{instance} #{t}"
+            puts "    failure: #{plugin}-#{instance}-#{hash['rrd']}-#{hash['value']}"
         end
       end
     end
   end
 end
-
-=begin
-def pretty(resp)
-  JSON.pretty_generate(JSON.parse(resp.body))
-end
-
-
-
-if options[:create] then
-  puts pretty MRClient.post('/clusters', :body => create_cluster_request.to_json)
-end
-
-if options[:show] then
-  puts pretty MRClient.get("/cluster/#{options[:id]}")
-end
-
-if options[:destroy] then
-  puts pretty MRClient.delete("/cluster/#{options[:id]}")
-end
-=end
 
