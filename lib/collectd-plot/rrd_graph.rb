@@ -32,7 +32,6 @@ module CollectdPlot
       plugin = CollectdPlot::Plugins.plugin_by_name(opts[:plugin])
       plugin.massage_graph_opts!(opts) if plugin
 
-      opts[:graph_type] = selected_graph_type
       opts[:graph_type] = graph_type if graph_type != :default # override graph type if the user chooses to.
       opts[:title] ||= "#{opts[:host]} #{opts[:instance]}"
       opts[:line_width] ||= 2

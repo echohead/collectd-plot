@@ -53,10 +53,15 @@ module CollectdPlot
       dir_name.gsub(PLUGINS[plugin_for(dir_name)], '')
     end
 
+    def self.types_for(dir_name)
+      p = plugin_for dir_name
+      p.types(instance_for(dir_name))
+    end
+
     def self.rrds_for(dir_name)
       p = plugin_for dir_name
       [].tap do |res|
-        p.types(instance_for(dir_name)).each do |t|
+        types_for(dir_name).each do |t|
           opts = { :type => t}
           p.massage_graph_opts! opts
           res.concat opts[:series].values.map { |h| { :rrd => h[:rrd], :value => h[:value]} }
@@ -65,7 +70,7 @@ module CollectdPlot
     end
 
     def self.dir_info(dir_name)
-      [ plugin_name(dir_name), instance_for(dir_name), rrds_for(dir_name) ]
+      [ plugin_name(dir_name), instance_for(dir_name), rrds_for(dir_name), types_for(dir_name) ]
     end
   end
 end

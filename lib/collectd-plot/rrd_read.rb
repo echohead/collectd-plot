@@ -30,10 +30,12 @@ module CollectdPlot
     def self.list_metrics_for(h)
       {}.tap do |res|
         Dir.glob("#{RRDDIR}/#{h}/*").map {|m| File.basename m }.each do |dir|
-          plugin, instance, rrds = CollectdPlot::Plugins.dir_info dir
+          plugin, instance, rrds, types = CollectdPlot::Plugins.dir_info dir
           res[plugin] ||= {}
-          res[plugin][instance] ||= []
-          res[plugin][instance].concat rrds
+          res[plugin][instance] ||= {}
+          res[plugin][instance][:types] = types
+          res[plugin][instance][:rrds] ||= []
+          res[plugin][instance][:rrds].concat rrds
         end
       end
     end
