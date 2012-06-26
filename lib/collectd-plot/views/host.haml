@@ -36,13 +36,13 @@
     %table
       %tbody
         - locals[:metrics][plugin].keys.sort.each do |instance|
-          - locals[:metrics][plugin][instance].each do |type|
+          - locals[:metrics][plugin][instance].each do |h|
             - if graph_num % 3 == 0
               %tr
             %td
-              %a{:href => link_to("/graph_edit", :host => locals[:host], :plugin => plugin, :instance => instance, :type => type, :x => 400, :y => 200)}
+              %a{:href => link_to("/graph_edit", :host => locals[:host], :plugin => plugin, :instance => instance, :type => h[:rrd], :x => 400, :y => 200)}
                 = "#{plugin}#{instance.empty? ? '' : '-' + instance}"
                 %br
-                %img{:src => link_to("/graph", :host => locals[:host], :plugin => plugin, :instance => instance, :type => type, :x => 300, :y => 100)}
+                %img{:src => link_to("/graph", :host => locals[:host], :plugin => plugin, :instance => instance, :type => h[:rrd], :x => 300, :y => 100)}
             - graph_num += 1
 

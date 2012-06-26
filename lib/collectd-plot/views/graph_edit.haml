@@ -111,6 +111,21 @@
 
     %tr
     %td
+      %label{:for => "graph_type"} graph type:
+    %td
+      %select{:name => "graph_type"}
+        %option{:value => "default"}
+          default
+        %option{:value => "line"}
+          line
+        %option{:value => "stacked"}
+          stacked
+    %td
+      %div#examples
+        line or stacked
+
+    %tr
+    %td
       %input{:type => "submit", :value => "Update", :class => "button"}
 
 

@@ -16,6 +16,10 @@ module CollectdPlot
 
 
     def self.massage_graph_opts!(opts)
+      opts[:graph_type] = 'default' if opts[:graph_type] != 'line' && opts[:graph_type] != 'stacked'
+      graph_type = opts[:graph_type].to_sym
+
+      selected_graph_type = opts[:graph_type]
       opts[:x] ||= 400
       opts[:y] ||= 300
       opts[:x] = 800 if opts[:x].to_i > 800
@@ -28,6 +32,8 @@ module CollectdPlot
       plugin = CollectdPlot::Plugins.plugin_by_name(opts[:plugin])
       plugin.massage_graph_opts!(opts) if plugin
 
+      opts[:graph_type] = selected_graph_type
+      opts[:graph_type] = graph_type if graph_type != :default # override graph type if the user chooses to.
       opts[:title] ||= "#{opts[:host]} #{opts[:instance]}"
       opts[:line_width] ||= 2
       opts[:graph_type] ||= :line
