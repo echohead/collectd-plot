@@ -4,6 +4,9 @@ require 'rspec'
 require 'rack/test'
 require 'collectd-plot'
 
+require 'rack/protection'
+use Rack::Protection, :except => :json_csrf
+
 set :environment, :test
 
 RSpec.configure do |conf|
