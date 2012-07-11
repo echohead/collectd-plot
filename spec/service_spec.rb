@@ -21,8 +21,7 @@ describe 'the service' do
     end
 
     it 'should list metrics for a host' do
-      JSON.parse(get_json('/host/host_a').body).should == 
-{"cpu"=>{"0"=>{"types"=>["cpu"], "rrds"=>[{"rrd"=>"cpu-idle", "value"=>"value"}, {"rrd"=>"cpu-nice", "value"=>"value"}, {"rrd"=>"cpu-user", "value"=>"value"}, {"rrd"=>"cpu-wait", "value"=>"value"}, {"rrd"=>"cpu-system", "value"=>"value"}, {"rrd"=>"cpu-softirq", "value"=>"value"}, {"rrd"=>"cpu-interrupt", "value"=>"value"}, {"rrd"=>"cpu-steal", "value"=>"value"}]}}, "df"=>{"root"=>{"types"=>["df_complex"], "rrds"=>[{"rrd"=>"df_complex-reserved", "value"=>"value"}, {"rrd"=>"df_complex-free", "value"=>"value"}, {"rrd"=>"df_complex-used", "value"=>"value"}]}}, "load"=>{""=>{"types"=>["load"], "rrds"=>[{"rrd"=>"load", "value"=>"shortterm"}, {"rrd"=>"load", "value"=>"midterm"}, {"rrd"=>"load", "value"=>"longterm"}]}}, "memory"=>{""=>{"types"=>["memory"], "rrds"=>[{"rrd"=>"memory-free", "value"=>"value"}, {"rrd"=>"memory-buffered", "value"=>"value"}, {"rrd"=>"memory-cached", "value"=>"value"}, {"rrd"=>"memory-used", "value"=>"value"}]}}}
+      JSON.parse(get_json('/host/host_a').body).should == JSON.parse(api_fixture_data 'host_a_rrds.json')
     end
 
     it 'should list instances for a metric' do
@@ -49,27 +48,7 @@ describe 'the service' do
         :rrd => 'memory-free',
         :value => 'value'
       }
-      get_csv('/rrd_data', params).body.should ==
-<<eos
-time,value
-1335739560,1502602000.0
-1335739620,1502610000.0
-1335739680,1502610000.0
-1335739740,1502610000.0
-1335739800,1502696000.0
-1335739860,1503068000.0
-1335739920,1503180000.0
-1335739980,1503180000.0
-1335740040,1503180000.0
-1335740100,1503080000.0
-1335740160,1502738000.0
-1335740220,1502994000.0
-1335740280,1503022000.0
-1335740340,1502750000.0
-1335740400,1502724000.0
-1335740460,1502612000.0
-1335740520,1502594000.0
-eos
+      get_csv('/rrd_data', params).body.should == api_fixture_data('host_a_memory.csv')
     end
 
     it 'returns rrd data for a metric as json' do
@@ -81,7 +60,7 @@ eos
        :instance => '',
        :rrd => 'memory-free'
       }
-      get_json('/rrd_data', params).body.should == '[[1335739560,1502602000.0],[1335739620,1502610000.0],[1335739680,1502610000.0],[1335739740,1502610000.0],[1335739800,1502696000.0],[1335739860,1503068000.0],[1335739920,1503180000.0],[1335739980,1503180000.0],[1335740040,1503180000.0],[1335740100,1503080000.0],[1335740160,1502738000.0],[1335740220,1502994000.0],[1335740280,1503022000.0],[1335740340,1502750000.0],[1335740400,1502724000.0],[1335740460,1502612000.0],[1335740520,1502594000.0]]'
+      JSON.parse(get_json('/rrd_data', params).body).should == JSON.parse(api_fixture_data('host_a_memory.json'))
     end
 
   end

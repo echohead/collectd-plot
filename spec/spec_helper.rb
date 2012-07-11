@@ -21,3 +21,7 @@ end
 def get_csv(path, params = {})
   get(path, params, {'HTTP_ACCEPT' => 'text/csv'})
 end
+
+def api_fixture_data(filename)
+  File.read("#{File.dirname __FILE__}/fixtures/api_data/#{filename}")
+end
