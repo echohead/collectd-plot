@@ -1,3 +1,6 @@
+require 'config'
+CollectdPlot::Config.from_file '/etc/collectd-plot.conf'
+
 worker_processes CollectdPlot::Config.num_workers
 
 working_directory CollectdPlot::Config.root
