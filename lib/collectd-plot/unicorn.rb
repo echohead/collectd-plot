@@ -6,7 +6,6 @@ worker_processes CollectdPlot::Config.num_workers
 
 working_directory CollectdPlot::Config.root
 
-listen "/tmp/.sock", :backlog => 64
 listen 5000, :tcp_nopush => true
 
 timeout 30
@@ -25,4 +24,6 @@ before_fork do |server, worker|
 end
 
 after_fork do |server, worker|
+  addr = "127.0.0.1:#{5001 + worker.nr}"
+  server.listen(addr, :tries => -1, :delay => 5, :tcp_nopush => true)
 end
