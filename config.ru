@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'pathname'
-@root = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
+@root = File.dirname __FILE__
 $: << @root.to_s
 
 $0 = "collectd-plot"
