@@ -1,3 +1,4 @@
+$: << File.dirname __FILE__
 require 'config'
 CollectdPlot::Config.from_file '/etc/collectd-plot.conf'
 
