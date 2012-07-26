@@ -7,8 +7,8 @@ BOX_URL = 'http://echohead.org/~tim/vagrant/oneiric64_base.box'
 nodes = {
   :server => {
     :ip_address => '192.168.50.15',
-#    :roles => ['Dev-Collectd-Plot'],
-    :roles => ['Prod-Collectd-Plot'],
+    :roles => ['Dev-Collectd-Plot'],
+#    :roles => ['Prod-Collectd-Plot'],
     :forwards => { 80 => 8081, 8080 => 8082 }
   }
 }
