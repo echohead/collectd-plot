@@ -16,6 +16,17 @@
       %a{:href => link_to("/graph", locals[:params])}
         %img{:src => link_to("/graph", locals[:params])}
 %br
+%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-1d')) }
+  day &nbsp&nbsp&nbsp&nbsp
+%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-7d')) }
+  week &nbsp&nbsp&nbsp&nbsp
+%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-30d')) }
+  month &nbsp&nbsp&nbsp&nbsp
+%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-90d')) }
+  quarter &nbsp&nbsp&nbsp&nbsp
+%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-365d')) }
+  year &nbsp&nbsp&nbsp&nbsp
+%br
 %br
 %hr
 %br
