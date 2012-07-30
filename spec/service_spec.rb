@@ -48,6 +48,7 @@ describe 'the service' do
         :rrd => 'memory-free',
         :value => 'value'
       }
+      RRD.stub(:fetch).and_return(JSON.parse(api_fixture_data('host_a_memory.raw')))
       get_csv('/rrd_data', params).body.should == api_fixture_data('host_a_memory.csv')
     end
 
@@ -60,6 +61,7 @@ describe 'the service' do
        :instance => '',
        :rrd => 'memory-free'
       }
+      RRD.stub(:fetch).and_return(JSON.parse(api_fixture_data('host_a_memory.raw')))
       JSON.parse(get_json('/rrd_data', params).body).should == JSON.parse(api_fixture_data('host_a_memory.json'))
     end
 
