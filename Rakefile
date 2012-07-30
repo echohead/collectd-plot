@@ -9,7 +9,7 @@ task :convert_fixture_rrds do
   rescue RRDError => e
     if e.message =~ /This RRD was created on another architecture/
       puts "converting RRD files to current architecture"
-      system('for f in `find spec -name "*.rrd" -print`; do rrdtool dump $f > /tmp/rrd_conv.xml; rrd restore /tmp/rrd_conv.xml $f;done')
+      system('for f in `find spec -name "*.rrd" -print`; do rrdtool dump $f > /tmp/rrd_conv.xml; rrdtool restore /tmp/rrd_conv.xml $f;done')
     end
   end
 end
