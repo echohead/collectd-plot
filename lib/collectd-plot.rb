@@ -9,6 +9,7 @@ require 'collectd-plot/rrd_graph'
 require 'collectd-plot/rrd_read'
 require 'collectd-plot/rrd_remote'
 
+
 module CollectdPlot
 
   class Service < Sinatra::Base
@@ -23,10 +24,6 @@ module CollectdPlot
     def rrd_reader
       CollectdPlot::Config.proxy ? RRDRemote : RRDRead
     end
-
-
-    # show classy backtrace UI even in production, for now
-    set :show_exceptions, true
 
     get '/' do
       redirect '/hosts'
@@ -68,8 +65,18 @@ module CollectdPlot
       respond_with_key :graph_edit, :params, :params => params
     end
 
+    # return index of shards => hosts
+    get '/shards' do
+      respond_with :shard, rrd_reader.shard_index
+    end
+
+    # return and index of hosts => shards
+    get '/host_to_shards' do
+      respond_with :hosts, rrd_reader.hosts_to_shards
+    end
+
     get '/sandbox' do
-      data = RRDRead.rrd_data('host_a', 'memory', '', 'memory-free', 1335739560, 1335740560)
+      data = rrd_reader.list_metrics_for('host_a')
       data.inspect
     end
   end

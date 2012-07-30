@@ -10,6 +10,7 @@ module CollectdPlot
 
 
     def self.update_shards!
+      # TODO: don't update every time.
       CollectdPlot::Config.rrd_servers.each do |shard|
         hosts = http_get_json "#{shard}/hosts"
         cache_put_hosts_for_shard shard, hosts
@@ -21,12 +22,32 @@ module CollectdPlot
       CollectdPlot::Config.rrd_servers.map { |h| hosts_for_shard(h) }.flatten
     end
 
+    def self.shard_index
+      {}.tap do |res|
+        CollectdPlot::Config.rrd_servers.each do |s|
+          res[s] = hosts_for_shard s
+        end
+      end
+    end
 
     def self.hosts_for_shard(s)
+      update_shards!
       res = CollectdPlot::Cache.instance.get("hosts_for_shard.#{s}", 600) do
         http_get_json("#{s}/hosts").to_json
       end
       JSON.parse res
+    end
+
+    def self.hosts_to_shards
+      update_shards!
+      {}.tap do |res|
+        shard_index.each_pair do |shard, hosts|
+          hosts.each do |host|
+            res[host] ||= []
+            res[host] << shard
+          end
+        end
+      end
     end
 
     def self.shard_for_host(h)
@@ -45,7 +66,7 @@ module CollectdPlot
     end
 
     def self.http_get_json(uri)
-      JSON.parse(http_get uri, :headers => {:ccept => 'application/json'})
+      JSON.parse(http_get uri, :headers => {:accept => 'application/json'})
     end
 
     def self.http_get(uri, opts)
@@ -56,7 +77,7 @@ module CollectdPlot
 
     def self.cache_put_hosts_for_shard(shard, hosts)
       key = "hosts_for_shard.#{shard}"
-      CollectdPlot::Cache.instance.put(key, hosts.to_json, 600)
+      CollectdPlot::Cache.instance.put(key, hosts.sort.to_json, 600)
     end
 
     def self.cache_put_shard_for_host(host, shard)

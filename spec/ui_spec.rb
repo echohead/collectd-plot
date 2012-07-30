@@ -32,6 +32,13 @@ describe 'the UI' do
       get('/host/host_a/plugin/load').body.should =~ /img src='\/graph\?.*host_a/
     end
 
+    it 'should allow selection of which data to include in a graph' do
+      pending 'TODO'
+      body = get('/graph_edit', :host => 'host_a', :plugin => 'memory').body
+      body.should =~ /include series/
+      body.should =~ /memory-free/
+    end
+
   end
 
 

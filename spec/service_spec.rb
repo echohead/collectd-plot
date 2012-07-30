@@ -70,13 +70,22 @@ describe 'the service' do
 
     before :each do
       CollectdPlot::Config.proxy = true
-
       CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/hosts").and_return(['baz', 'bam'])
       CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.17/hosts").and_return(['bar', 'foo'])
     end
 
     it 'should return the union of the hosts on all shards' do
       JSON.parse(get_json('/hosts').body).sort.should == ['bam', 'bar', 'baz', 'foo']
+    end
+
+    it 'should return a mapping from shard to hosts' do
+      res = JSON.parse(get_json('/shards').body)
+      res.should == { '192.168.50.16' => ['bam', 'baz'], '192.168.50.17' => ['bar', 'foo'] }
+    end
+
+    it 'should return a map of hosts to shards' do
+      res = JSON.parse(get_json('/host_to_shards').body)
+      res.should == { 'bam' => ['192.168.50.16'], 'baz' => ['192.168.50.16'], 'bar' => ['192.168.50.17'], 'foo' => ['192.168.50.17']}
     end
 
     it 'should correctly map hosts to shards' do

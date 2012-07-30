@@ -1,15 +1,17 @@
 # Load the Sinatra app
 #require "#{File.dirname(__FILE__)}/../lib/collectd-plot"
+require 'collectd-plot'
 require 'rspec'
 require 'rack/test'
-require 'collectd-plot'
+
+enable :raise_errors
 
 require 'rack/protection'
 use Rack::Protection, :except => :json_csrf
 
-set :environment, :test
 
 RSpec.configure do |conf|
+  ENV['RACK_ENV'] = 'test'
   conf.include Rack::Test::Methods
 end
 
@@ -28,3 +30,6 @@ end
 def api_fixture_data(filename)
   File.read("#{File.dirname __FILE__}/fixtures/api_data/#{filename}")
 end
+
+
+# convert fixture rrd files if we are on a different architecture:
