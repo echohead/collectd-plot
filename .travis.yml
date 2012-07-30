@@ -6,7 +6,7 @@ language: ruby
 rvm:
   - 1.9.2
 
-script: "bundle exec rake convert_fixture_rrds && bundle exec rake spec"
+script: bundle exec rake spec
 
 notifications:
   email:
