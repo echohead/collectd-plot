@@ -17,6 +17,7 @@ module CollectdPlot
 
     def self.massage_graph_opts!(opts)
       opts[:graph_type] = 'default' if opts[:graph_type] != 'line' && opts[:graph_type] != 'stacked'
+      opts[:colors] = opts[:colors].split(',') if opts[:colors]
       graph_type = opts[:graph_type].to_sym
 
       selected_graph_type = opts[:graph_type]
@@ -89,7 +90,8 @@ module CollectdPlot
         end
       end
       series.keys.each_with_index do |name, i|
-        res << "AREA:area#{i}##{series[name][:color] ? series[name][:color] : rand_color(i, series.size)}:#{name}"
+        color = (opts[:colors] and opts[:colors].length > i) ? opts[:colors][i] : rand_color(i, series.size)
+        res << "AREA:area#{i}##{series[name][:color] ? series[name][:color] : color}:#{name}"
         res.concat [ "GPRINT:min#{i}:MIN:#{opts[:rrd_format]} min" ]
         res.concat [ "GPRINT:avg#{i}:AVERAGE:#{opts[:rrd_format]} avg" ]
         res.concat [ "GPRINT:max#{i}:MAX:#{opts[:rrd_format]} max\\l" ]
@@ -104,7 +106,8 @@ module CollectdPlot
 
         # print a line for this metric
         res.concat [ "DEF:value#{i}=#{rrd}:#{props[:value]}:AVERAGE" ]
-        res.concat [ "LINE#{opts[:line_width]}:value#{i}##{props[:color] ? props[:color] : rand_color(i, opts[:series].size)}:#{name}" ]
+        color = (opts[:colors] and opts[:colors].length > i) ? opts[:colors][i] : rand_color(i, opts[:series].size)
+        res.concat [ "LINE#{opts[:line_width]}:value#{i}##{props[:color] ? props[:color] : color}:#{name}" ]
 
         # display legend with min, max, avg
         res.concat [ "DEF:min#{i}=#{rrd}:#{props[:value]}:MIN" ]

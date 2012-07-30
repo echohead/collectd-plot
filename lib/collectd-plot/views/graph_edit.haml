@@ -136,6 +136,17 @@
         line or stacked
 
     %tr
+    %tr
+    %td
+      %label{:for => "colors"} colors:
+    %td
+      %input{:type => "text", :name => "colors", :class => "text", :value => locals[:params][:colors]}
+    %td
+      %div#examples
+        comma-seperated list of colors for the lines, e.g.:
+        %code FF0000,00FF00,0000FF
+
+
     %td
       %input{:type => "submit", :value => "Update", :class => "button"}
 
