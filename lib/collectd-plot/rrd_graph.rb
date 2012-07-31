@@ -96,7 +96,7 @@ module CollectdPlot
         res.concat [ "GPRINT:avg#{i}:AVERAGE:#{opts[:rrd_format]} avg" ]
         res.concat [ "GPRINT:max#{i}:MAX:#{opts[:rrd_format]} max\\l" ]
       end
-      res.concat [ "HRULE:#{opts[:threshold]}#000000:threshold:dashes=on" ] if opts[:threshold]
+      res.concat [ "HRULE:#{opts[:threshold]}#000000:threshold:dashes=on" ] if opts[:threshold] and !opts[:threshold].empty?
       res
     end
 
@@ -118,7 +118,7 @@ module CollectdPlot
         res.concat [ "GPRINT:avg#{i}:AVERAGE:#{opts[:rrd_format]} avg" ]
         res.concat [ "GPRINT:max#{i}:MAX:#{opts[:rrd_format]} max\\l" ]
       end
-      res.concat [ "HRULE:#{opts[:threshold]}#000000:threshold:dashes=on" ] if opts[:threshold]
+      res.concat [ "HRULE:#{opts[:threshold]}#000000:threshold:dashes=on" ] if opts[:threshold] and !opts[:threshold].empty?
       res
     end
  
