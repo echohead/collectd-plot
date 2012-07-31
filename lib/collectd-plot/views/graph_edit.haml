@@ -122,6 +122,16 @@
 
     %tr
     %td
+      %label{:for => "threshold"} threshold:
+    %td
+      %input{:type => "text", :name => "threshold", :class => "text", :value => locals[:params][:threshold]}
+    %td
+      %div#examples
+        display horizontal threshold line at this y-value when set.  examples:
+        %code 50    2.56  3000000000
+
+    %tr
+    %td
       %label{:for => "graph_type"} graph type:
     %td
       %select{:name => "graph_type"}
@@ -146,7 +156,7 @@
         comma-seperated list of colors for the lines, e.g.:
         %code FF0000,00FF00,0000FF
 
-
+    %tr
     %td
       %input{:type => "submit", :value => "Update", :class => "button"}
 
