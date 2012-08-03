@@ -17,6 +17,7 @@ module CollectdPlot
 
     def self.massage_graph_opts!(opts)
       opts[:graph_type] = 'default' if opts[:graph_type] != 'line' && opts[:graph_type] != 'stacked'
+      opts[:instance] ||= ''
       opts[:colors] = opts[:colors].split(',') if opts[:colors]
       graph_type = opts[:graph_type].to_sym
 
@@ -31,7 +32,7 @@ module CollectdPlot
       opts[:end] ||= 'now'
 
       plugin = CollectdPlot::Plugins.plugin_by_name(opts[:plugin])
-      plugin.massage_graph_opts!(opts) if plugin
+      opts.merge!(plugin.massage_graph_opts(opts)) if plugin
 
       opts[:graph_type] = graph_type if graph_type != :default # override graph type if the user chooses to.
       opts[:title] ||= "#{opts[:host]} #{opts[:instance]}"
@@ -102,6 +103,7 @@ module CollectdPlot
 
     def self.line_args(opts)
       res = []
+
       each_pair_with_index(opts[:series]) do |name, props, i|
         rrd = RRDRead.rrd_path opts[:host], opts[:plugin], opts[:instance], props[:rrd]
 

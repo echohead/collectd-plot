@@ -39,6 +39,12 @@ module CollectdPlot
       const_get(name.capitalize)
     end
 
+    def self.series_for(opts)
+      p = plugin_by_name opts[:plugin]
+      series = p.massage_graph_opts(opts)[:series]
+      series.keys.map { |s| s.strip }
+    end
+
     def self.plugin_for(dir_name)
       PLUGINS.each_pair do |plugin, match|
         return plugin if dir_name =~ match
@@ -63,7 +69,7 @@ module CollectdPlot
       [].tap do |res|
         types_for(dir_name).each do |t|
           opts = { :type => t}
-          p.massage_graph_opts! opts
+          opts.merge! p.massage_graph_opts(opts)
           res.concat opts[:series].values.map { |h| { :rrd => h[:rrd], :value => h[:value]} }
         end
       end

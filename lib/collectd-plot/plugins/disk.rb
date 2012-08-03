@@ -4,30 +4,32 @@ module CollectdPlot
   module Plugins
     module Disk
 
-      def self.massage_graph_opts!(opts)
-        case opts[:type]
-        when 'disk_merged'
-          opts[:title] = "disk merged operations (#{opts[:instance]})"
-          opts[:ylabel] = 'merged operations per second'
-        when 'disk_octets'
-          opts[:title] = "disk traffic (#{opts[:instance]})"
-          opts[:ylabel] = 'bytes per second'
-        when 'disk_ops'
-          opts[:title] = "disk ops per second (#{opts[:instance]})"
-          opts[:ylabel] = 'ops per second'
-        when 'disk_time'
-          opts[:title] = "disk time per operation (#{opts[:instance]})"
-          opts[:ylabel] = 'average time per op'
-        else raise "unknown type: #{opts[:type]}"
-        end
+      def self.massage_graph_opts(opts)
+        {}.tap do |res|
+          case opts[:type]
+          when 'disk_merged'
+            res[:title] = "disk merged operations (#{opts[:instance]})"
+            res[:ylabel] = 'merged operations per second'
+          when 'disk_octets'
+            res[:title] = "disk traffic (#{opts[:instance]})"
+            res[:ylabel] = 'bytes per second'
+          when 'disk_ops'
+            res[:title] = "disk ops per second (#{opts[:instance]})"
+            res[:ylabel] = 'ops per second'
+          when 'disk_time'
+            res[:title] = "disk time per operation (#{opts[:instance]})"
+            res[:ylabel] = 'average time per op'
+          else raise "unknown type: #{opts[:type]}"
+          end
 
-        opts[:series] = {
-          'read'  => {:rrd => opts[:type], :value => 'read'},
-          'write' => {:rrd => opts[:type], :value => 'write'}
-        }
-        opts[:line_width] = 1
-        opts[:graph_type] = :line
-        opts[:rrd_format] = '%5.1lf%s'
+          res[:series] = {
+            'read'  => {:rrd => opts[:type], :value => 'read'},
+            'write' => {:rrd => opts[:type], :value => 'write'}
+          }
+          res[:line_width] = 1
+          res[:graph_type] = :line
+          res[:rrd_format] = '%5.1lf%s'
+        end
       end
 
       def self.types(instance = nil)

@@ -8,18 +8,20 @@ module CollectdPlot
         RRDRead.rrd_files(host, "unixsock-#{instance}").map { |f| f.gsub(/.rrd$/, '') }
       end
  
-      def self.massage_graph_opts!(opts)
-        opts[:title] = opts[:instance]
-        opts[:ylabel] = ''
+      def self.massage_graph_opts(opts)
+        {}.tap do |res|
+          res[:title] = opts[:instance]
+          res[:ylabel] = ''
+ 
+          res[:series] = {}
+          get_series(opts[:host], opts[:instance]).each do |s|
+            res[:series][s] = {:rrd => s, :value => 'value'}
+          end
 
-        opts[:series] = {}
-        get_series(opts[:host], opts[:instance]).each do |s|
-          opts[:series][s] = {:rrd => s, :value => 'value'}
+          res[:line_width] = 1
+          res[:graph_type] = :line
+          res[:rrd_format] = '%.1lf'
         end
-
-        opts[:line_width] = 1
-        opts[:graph_type] = :line
-        opts[:rrd_format] = '%.1lf'
       end
 
       def self.types(instance = nil)

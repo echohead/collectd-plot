@@ -3,6 +3,7 @@ require 'haml'
 require 'json'
 require 'pathname'
 require 'sinatra'
+require 'collectd-plot/cgp'
 require 'collectd-plot/config'
 require 'collectd-plot/helpers'
 require 'collectd-plot/rrd_graph'
@@ -16,8 +17,7 @@ module CollectdPlot
     @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
     set :public_folder, @root.join('lib/collectd-plot/public')
     set :views,         @root.join('lib/collectd-plot/views')
-    helpers Sinatra::LinkToHelper
-    helpers Sinatra::RespondWithHelper
+    helpers Sinatra::LinkToHelper, Sinatra::RespondWithHelper, Sinatra::MultipleParamValues
 
     # if configured as a proxy, serve rrd files from remote hosts
     # else, serve rrd files from local filesystem.
@@ -54,15 +54,24 @@ module CollectdPlot
 
     # return rrdtool graph
     get '/graph' do
+      params = request_params # handle multiple series
+      content_type 'image/png'
+      RRDGraph.graph(params)
+    end
+
+    # backwards-compatibility CGP graph path
+    get '/cgp/graph.php' do
+      params = CollectdPlot::CGP.convert request_params
       content_type 'image/png'
       RRDGraph.graph(params)
     end
 
     # form to customize a graph
     get '/graph_edit' do
+      params = request_params # handle multiple series
       params[:end] ||= 'now'
       params[:start] ||= 'end-24h'
-      respond_with_key :graph_edit, :params, :params => params
+      respond_with_key :graph_edit, :params, :params => params, :series => CollectdPlot::Plugins.series_for(params)
     end
 
     # return index of shards => hosts

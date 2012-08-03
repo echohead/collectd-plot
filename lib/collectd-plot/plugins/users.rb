@@ -3,15 +3,17 @@
 module CollectdPlot
   module Plugins
     module Users
-      def self.massage_graph_opts!(opts)
-        opts[:title] = "users"
-        opts[:ylabel] = 'users'
-        opts[:series] = {
-          'users' => {:rrd => 'users', :value => 'value'}
-        }
-        opts[:line_width] = 1
-        opts[:graph_type] = :line
-        opts[:rrd_format] = '%.1lf'
+      def self.massage_graph_opts(opts)
+        {}.tap do |res|
+          res[:title] = "users"
+          res[:ylabel] = 'users'
+          res[:series] = {
+            'users' => {:rrd => 'users', :value => 'value'}
+          }
+          res[:line_width] = 1
+          res[:graph_type] = :line
+          res[:rrd_format] = '%.1lf'
+        end
       end
 
       def self.types(instance = nil)

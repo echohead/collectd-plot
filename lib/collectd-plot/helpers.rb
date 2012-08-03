@@ -1,7 +1,20 @@
 require 'sinatra/base'
+require 'cgi'
 require 'csv'
 
 module Sinatra
+
+  module MultipleParamValues
+    def request_params
+      params = {}
+      request.query_string.split('&').each do |pair|
+        kv = pair.split('=').map{|v| CGI.unescape(v)}
+        params.merge!({kv[0].to_sym => kv.length > 1 ? kv[1] : nil }) {|key, o, n| o.is_a?(Array) ? o << n : [o,n]}
+      end
+      params
+    end
+  end
+
   module LinkToHelper
     # from http://gist.github.com/98310
     def link_to(url_fragment, params={})
@@ -13,10 +26,8 @@ module Sinatra
       end
     end
   end
-end
 
 
-module Sinatra
   module RespondWithHelper
     def respond_with_key(name, json_key, data)
       (request.accept.concat ['text/html']).each do |type|

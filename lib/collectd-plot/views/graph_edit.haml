@@ -16,16 +16,25 @@
       %a{:href => link_to("/graph", locals[:params])}
         %img{:src => link_to("/graph", locals[:params])}
 %br
-%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-1d')) }
-  day &nbsp&nbsp&nbsp&nbsp
-%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-7d')) }
-  week &nbsp&nbsp&nbsp&nbsp
-%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-30d')) }
-  month &nbsp&nbsp&nbsp&nbsp
-%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-90d')) }
-  quarter &nbsp&nbsp&nbsp&nbsp
-%a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', 'start' => 'end-365d')) }
-  year &nbsp&nbsp&nbsp&nbsp
+
+%table
+  %tbody
+    %tr
+      %td
+        %a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', :start => 'end-1d')) }
+          day &nbsp&nbsp&nbsp&nbsp
+      %td
+        %a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', :start => 'end-7d')) }
+          week &nbsp&nbsp&nbsp&nbsp
+      %td
+        %a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', :start => 'end-30d')) }
+          month &nbsp&nbsp&nbsp&nbsp
+      %td
+        %a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', :start => 'end-90d')) }
+          quarter &nbsp&nbsp&nbsp&nbsp
+      %td
+        %a{:href => link_to("/graph_edit", locals[:params].merge(:end => 'now', :start => 'end-365d')) }
+          year &nbsp&nbsp&nbsp&nbsp
 %br
 %br
 %hr
@@ -155,6 +164,18 @@
       %div#examples
         comma-seperated list of colors for the lines, e.g.:
         %code FF0000,00FF00,0000FF
+
+    %tr
+    %td
+      %label{:for => "series"} series:
+    %td
+      - locals[:series].each do |s|
+        %input{:type => "checkbox", :name => :series, :value => s, :checked => true}
+          = s
+          %br
+    %td
+      %div#examples
+        which series to include in the graph
 
     %tr
     %td
