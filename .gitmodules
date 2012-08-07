@@ -1,3 +1,6 @@
 [submodule "chef/cookbooks/collectd-plot"]
 	path = chef/cookbooks/collectd-plot
 	url = git://github.com/echohead/collectd-plot-recipes.git
+[submodule "chef/cookbooks/redis"]
+	path = chef/cookbooks/redis
+	url = git://github.com/ctrabold/chef-redis.git
