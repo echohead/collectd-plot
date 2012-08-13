@@ -19,6 +19,9 @@ module CollectdPlot
     set :views,         @root.join('lib/collectd-plot/views')
     helpers Sinatra::LinkToHelper, Sinatra::RespondWithHelper, Sinatra::MultipleParamValues
 
+set :raise_errors, true
+set :show_exceptions, false
+
     # if configured as a proxy, serve rrd files from remote hosts
     # else, serve rrd files from local filesystem.
     def rrd_reader
@@ -49,7 +52,7 @@ module CollectdPlot
     end
 
     get '/rrd_data' do
-      respond_with :data, RRDRead.rrd_data(params[:host], params[:plugin], params[:instance], params[:rrd], params[:value], params[:start], params[:end])
+      respond_with :data, rrd_reader.rrd_data(params[:host], params[:plugin], params[:instance], params[:rrd], params[:value], params[:start], params[:end])
     end
 
     # return rrdtool graph

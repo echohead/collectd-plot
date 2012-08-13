@@ -62,6 +62,11 @@ module CollectdPlot
       res['rrd']
     end
 
+    def self.rrd_data(host, plugin, instance, rrd, value, start, stop)
+      params = "host=#{host}&plugin=#{plugin}&rrd=#{rrd}&value=#{value}&start=#{start}&end=#{stop}"
+      http_get_json "#{shard_for_host host}/rrd_data?#{params}"
+    end
+
     def self.list_metrics_for(host)
       shard = shard_for_host host
       uri = "#{shard}/host/#{host}"
