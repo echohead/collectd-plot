@@ -10,22 +10,30 @@ module CollectdPlot
       @r = Redis.new :host => CollectdPlot::Config.redis_host
     end
 
+    def enabled?
+      CollectdPlot::Config.cache
+    end
+
     def namespaced(key)
       "collectd-plot.#{key}"
     end
 
     def put(key, value, ttl=60)
+      return unless enabled?
       k = namespaced key
-      @r[k] = value
+      @r[k] = value.to_json
       @r.expire k, ttl
     end
 
     # return the cached value, if one exists.
     # if no value exists, and a block is provided, cache the result of the block and return it.
     def get(key, ttl=60)
+      if !enabled?
+        return (block_given? ? yield : nil)
+      end
       k = namespaced key
       cached = @r[k]
-      return cached if cached
+      return JSON.parse(cached) if cached
       if block_given?
         val = yield
         put(key, val, ttl)

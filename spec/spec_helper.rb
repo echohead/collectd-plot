@@ -31,5 +31,3 @@ def api_fixture_data(filename)
   File.read("#{File.dirname __FILE__}/fixtures/api_data/#{filename}")
 end
 
-
-# convert fixture rrd files if we are on a different architecture:

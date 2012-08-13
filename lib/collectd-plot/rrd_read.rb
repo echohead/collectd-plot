@@ -20,7 +20,7 @@ module CollectdPlot
     end
 
     def self.list_hosts
-      Dir.glob("#{RRDDIR}/*").map { |p| File.basename p }
+      Dir.glob("#{RRDDIR}/*").map { |p| File.basename p }.sort
     end
 
     def self.regexp_hosts(glob)

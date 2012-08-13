@@ -9,15 +9,6 @@ module CollectdPlot
   module RRDRemote
 
 
-    def self.update_shards!
-      # TODO: don't update every time.
-      CollectdPlot::Config.rrd_servers.each do |shard|
-        hosts = http_get_json "#{shard}/hosts"
-        cache_put_hosts_for_shard shard, hosts
-        hosts.each { |h| cache_put_shard_for_host h, shard }
-      end
-    end
-
     def self.list_hosts()
       CollectdPlot::Config.rrd_servers.map { |h| hosts_for_shard(h) }.flatten
     end
@@ -31,15 +22,12 @@ module CollectdPlot
     end
 
     def self.hosts_for_shard(s)
-      update_shards!
-      res = CollectdPlot::Cache.instance.get("hosts_for_shard.#{s}", 600) do
-        http_get_json("#{s}/hosts").to_json
+      CollectdPlot::Cache.instance.get("shard_for_host.#{s}") do
+        http_get_json "#{s}/hosts"
       end
-      JSON.parse res
     end
 
     def self.hosts_to_shards
-      update_shards!
       {}.tap do |res|
         shard_index.each_pair do |shard, hosts|
           hosts.each do |host|
@@ -50,18 +38,35 @@ module CollectdPlot
       end
     end
 
+    def self.shards_for_host(h)
+      CollectdPlot::Cache.instance.get("shards_for_host.#{h}") do
+        [].tap do |res|
+          shard_index.each_pair do |shard, hosts|
+            res << shard if hosts.include? h
+          end
+        end
+      end
+    end
+
     def self.shard_for_host(h)
-      res = CollectdPlot::Cache.instance.get("shard_for_host.#{h}")
-      return res if res
-      update_shards!
-      CollectdPlot::Cache.instance.get("shard_for_host.#{h}")
+      shards = shards_for_host h
+      shards.empty? ? nil : shards.first
     end
 
     def self.rrd_file(host, plugin, instance, rrd)
-      shard = shard_for_host(host)
+      shard = shard_for_host host
       uri = "#{shard}/rrd/#{host}/#{plugin}/#{instance}/#{rrd}"
-      CollectdPlot::Cache.instance.get("rrd.#{uri}") do
-        http_get(uri)
+      res = CollectdPlot::Cache.instance.get("rrd.#{uri}") do
+        { 'rrd' => http_get(uri) }
+      end
+      res['rrd']
+    end
+
+    def self.list_metrics_for(host)
+      shard = shard_for_host host
+      uri = "#{shard}/host/#{host}"
+      CollectdPlot::Cache.instance.get("host.#{host}") do
+        http_get_json uri
       end
     end
 
