@@ -117,7 +117,7 @@ describe 'the service' do
             :value => 'value'
           }
           resp = JSON.parse(api_fixture_data("host_a_memory.json"))
-          CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/TODO").and_return("TODO")
+          CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/TODO").and_return(resp)
           JSON.parse(get_json("/rrd_data", params).body).should == resp
         end
 
