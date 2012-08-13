@@ -123,7 +123,7 @@ describe 'the service' do
 
         it 'should retrieve rrd files from the appropriate shard for a host' do
           rrd_data = "some binary blob"
-          CollectdPlot::RRDRemote.stub!(:http_get).with("192.168.50.16/rrd/baz/cpu/0/cpu-idle").and_return(rrd_data)
+          CollectdPlot::RRDRemote.stub!(:http_get).and_return(rrd_data)
           get_json("/rrd/baz/cpu/0/cpu-idle").body.should == rrd_data
         end
 
