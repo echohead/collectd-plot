@@ -7,7 +7,7 @@ BOX_URL = 'http://echohead.org/~tim/vagrant/oneiric64_base.box'
 =begin
 nodes = {
   :server => {
-    :ip_address => '192.168.50.15',
+    :ip_address => '192.168.8.50.15',
     :roles => ['Collectd-Plot-Dev'],
     :forwards => { 80 => 8081, 8080 => 8082 }
   }
@@ -15,20 +15,20 @@ nodes = {
 =end
 
 nodes = {
-  :frontend => {
-    :ip_address => '192.168.50.15',
-    :roles => ['Collectd-Plot-Graph'],
-    :forwards => { 80 => 8081, 8080 => 8082 }
-  },
   :persist0 => {
-    :ip_address => '192.168.50.16',
+    :ip_address => '192.168.50.15',
     :roles => ['Collectd-Plot-Persist'],
     :forwards => {}
   },
   :persist1 => {
-    :ip_address => '192.168.50.17',
+    :ip_address => '192.168.50.16',
     :roles => ['Collectd-Plot-Persist'],
     :forwards => {}
+  },
+  :frontend => {
+    :ip_address => '192.168.50.17',
+    :roles => ['Collectd-Plot-Graph'],
+    :forwards => { 80 => 8081, 8080 => 8082 }
   }
 }
 

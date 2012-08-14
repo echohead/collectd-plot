@@ -7,7 +7,7 @@
       "cache": true,
       "proxy": true,
       "redis_host": "192.168.50.15",
-      "rrd_servers": ["192.168.50.16", "192.168.50.17"]
+      "rrd_servers": ["192.168.50.15", "192.168.50.16"]
     }
   },
   "json_class": "Chef::Role",
