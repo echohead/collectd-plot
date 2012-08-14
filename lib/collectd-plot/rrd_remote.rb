@@ -29,7 +29,7 @@ module CollectdPlot
 
     def self.hosts_for_shard(s)
       CollectdPlot::Cache.instance.get("shard_for_host.#{s}") do
-        http_get_json "#{s}/hosts"
+        http_get_json "http://#{s}/hosts"
       end
     end
 
@@ -61,7 +61,7 @@ module CollectdPlot
 
     def self.rrd_file(host, plugin, instance, rrd)
       shard = shard_for_host host
-      uri = "#{shard}/rrd/#{host}/#{plugin}/#{instance}/#{rrd}"
+      uri = "http://#{shard}/rrd/#{host}/#{plugin}/#{instance}/#{rrd}"
       res = CollectdPlot::Cache.instance.get("rrd.#{uri}") do
         { 'rrd' => http_get(uri) }
       end
@@ -70,12 +70,12 @@ module CollectdPlot
 
     def self.rrd_data(host, plugin, instance, rrd, value, start, stop)
       params = "host=#{host}&plugin=#{plugin}&rrd=#{rrd}&value=#{value}&start=#{start}&end=#{stop}"
-      http_get_json "#{shard_for_host host}/rrd_data?#{params}"
+      http_get_json "http://#{shard_for_host host}/rrd_data?#{params}"
     end
 
     def self.list_metrics_for(host)
       shard = shard_for_host host
-      uri = "#{shard}/host/#{host}"
+      uri = "http://#{shard}/host/#{host}"
       CollectdPlot::Cache.instance.get("host.#{host}") do
         http_get_json uri
       end
