@@ -76,8 +76,8 @@ describe 'the service' do
         before :each do
           CollectdPlot::Config.proxy = true
           CollectdPlot::Config.cache = cache
-          CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/hosts").and_return(['bam', 'baz'])
-          CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.17/hosts").and_return(['bar', 'foo'])
+          CollectdPlot::RRDRemote.stub!(:http_get_json).with("http://192.168.50.16/hosts").and_return(['bam', 'baz'])
+          CollectdPlot::RRDRemote.stub!(:http_get_json).with("http://192.168.50.17/hosts").and_return(['bar', 'foo'])
         end
 
         it 'should return the union of the hosts on all shards' do
@@ -102,7 +102,7 @@ describe 'the service' do
 
         it 'should find metrics for a host by asking a persistence shard' do
           mock_response = {'foo' => 'bar'}
-          CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/host/bam").and_return(mock_response)
+          CollectdPlot::RRDRemote.stub!(:http_get_json).with("http://192.168.50.16/host/bam").and_return(mock_response)
           JSON.parse(get_json("/host/bam").body).should == mock_response
         end
 
