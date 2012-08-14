@@ -52,8 +52,8 @@ describe 'the UI' do
     before :each do
       CollectdPlot::Config.proxy = true
 
-      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.16/hosts").and_return(['baz', 'bam'])
-      CollectdPlot::RRDRemote.stub!(:http_get_json).with("192.168.50.17/hosts").and_return(['bar', 'foo'])
+      CollectdPlot::RRDRemote.stub!(:http_get_json).with("http://192.168.50.16/hosts").and_return(['baz', 'bam'])
+      CollectdPlot::RRDRemote.stub!(:http_get_json).with("http://192.168.50.17/hosts").and_return(['bar', 'foo'])
     end
 
     it 'should return the union of the hosts on all shards' do
