@@ -17,7 +17,7 @@ describe 'the service' do
     end
 
     it 'should list hosts' do
-      JSON.parse(get_json('/hosts').body).should == ['host_a', 'host_b']
+      JSON.parse(get_json('/hosts').body).should == ['host_125', 'host_23', 'host_a', 'host_b']
     end
 
     it 'should list metrics for a host' do

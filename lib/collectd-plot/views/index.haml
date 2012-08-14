@@ -1,6 +1,23 @@
 
+%br
 %table
   %tbody
+    %tr
+      %td
+        %form{:action => '/hosts', :method => 'get'}
+          %label{:for => 'regexp'} filter hosts:
+          %input{:type => "text", :name => "regexp", :class => "text", :value => locals[:regexp]}
+          %input{:type => "submit", :value => "Update", :class => "button"}
+
+      %td
+        %div#examples
+          show only hosts matching this regexp, e.g.:
+          %code host_*.foo
+          %code host_\d+
+          %code foobar[123]+
+    %tr
+      %td
+        &nbsp;
     - if CollectdPlot::Config.host_groups and !CollectdPlot::Config.host_groups.empty?
       - CollectdPlot::Config.host_groups.each_pair do |title, regexp|
         - match_hosts = locals[:hosts].select { |h| h =~ Regexp.new(regexp) }

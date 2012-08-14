@@ -19,8 +19,14 @@ module CollectdPlot
       Dir.glob("#{RRDDIR}/#{host}/#{plugin}/*").map { |f| File.basename f }
     end
 
-    def self.list_hosts
-      Dir.glob("#{RRDDIR}/*").map { |p| File.basename p }.sort
+    def self.list_hosts(regexp = nil)
+      all_hosts = Dir.glob("#{RRDDIR}/*").map { |p| File.basename p }.sort
+      if regexp and !regexp.empty?
+        r = Regexp.new regexp
+        all_hosts.select { |h| h =~ r }
+      else
+        all_hosts
+      end
     end
 
     def self.regexp_hosts(glob)

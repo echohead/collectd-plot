@@ -33,7 +33,7 @@ set :show_exceptions, false
     end
 
     get '/hosts' do
-      respond_with_key :index, :hosts, :hosts => rrd_reader.list_hosts.sort
+      respond_with_key :index, :hosts, :hosts => rrd_reader.list_hosts(params[:regexp]).sort, :regexp => params[:regexp]
     end
 
     # list metrics for host

@@ -9,8 +9,14 @@ module CollectdPlot
   module RRDRemote
 
 
-    def self.list_hosts()
-      CollectdPlot::Config.rrd_servers.map { |h| hosts_for_shard(h) }.flatten
+    def self.list_hosts(regexp = nil)
+      all_hosts = CollectdPlot::Config.rrd_servers.map { |h| hosts_for_shard(h) }.flatten
+      if regexp and !regexp.empty?
+        r = Regexp.new regexp
+        all_hosts.select { |h| h =~ r }
+      else
+        all_hosts
+      end
     end
 
     def self.shard_index

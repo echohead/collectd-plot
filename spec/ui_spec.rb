@@ -24,6 +24,11 @@ describe 'the UI' do
       get('/hosts').body.should =~ /Hostgroup A/
     end
 
+    it 'should filter hosts based on regexp' do
+      get('/hosts', :regexp => 'host_\d+').body.should     =~ /host_23/
+      get('/hosts', :regexp => 'host_\d+').body.should_not =~ /host_a/
+    end
+
     it 'should list metrics for a host' do
       get('/host/host_a').body.should =~ /df/
     end
