@@ -1,0 +1,24 @@
+{
+  "name": "Collectd-Plot-Graph",
+  "default_attributes": {
+    "collectd_plot": {
+      "root": "/opt/collectd-plot",
+      "git_ref": "HEAD",
+      "cache": true,
+      "proxy": true,
+      "redis_host": "192.168.50.15",
+      "rrd_servers": ["192.168.50.16", "192.168.50.17"]
+    }
+  },
+  "json_class": "Chef::Role",
+  "env_run_lists": {
+  },
+  "run_list": [
+    "recipe[collectd-plot::prod]",
+    "recipe[redis::default]"
+  ],
+  "description": "Collectd-Plot Service",
+  "chef_type": "role",
+  "override_attributes": {
+  }
+}

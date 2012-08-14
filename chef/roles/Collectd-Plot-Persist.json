@@ -1,0 +1,23 @@
+{
+  "name": "Collectd-Plot-Persist",
+  "default_attributes": {
+    "collectd_plot": {
+      "root": "/opt/collectd-plot",
+      "git_ref": "HEAD",
+      "cache": true,
+      "proxy": false,
+      "redis_host": "192.168.50.15"
+    }
+  },
+  "json_class": "Chef::Role",
+  "env_run_lists": {
+  },
+  "run_list": [
+    "recipe[collectd-plot::prod]",
+    "recipe[redis::default]"
+  ],
+  "description": "Collectd-Plot Service",
+  "chef_type": "role",
+  "override_attributes": {
+  }
+}

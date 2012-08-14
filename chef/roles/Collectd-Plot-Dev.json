@@ -1,5 +1,5 @@
 {
-  "name": "Dev-Collectd-Plot",
+  "name": "Collectd-Plot-Dev",
   "default_attributes": {
     "collectd_plot": {
       "root": "/vagrant"

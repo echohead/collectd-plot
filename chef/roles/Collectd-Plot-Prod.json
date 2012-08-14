@@ -1,5 +1,5 @@
 {
-  "name": "Prod-Collectd-Plot",
+  "name": "Collectd-Plot-Prod",
   "default_attributes": {
     "collectd_plot": {
       "root": "/opt/collectd-plot",

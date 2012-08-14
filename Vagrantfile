@@ -4,12 +4,31 @@ CHEF_ROOT = "#{File.dirname(__FILE__)}/chef"
 BOX = 'oneiric64_base'
 BOX_URL = 'http://echohead.org/~tim/vagrant/oneiric64_base.box'
 
+=begin
 nodes = {
   :server => {
     :ip_address => '192.168.50.15',
-    :roles => ['Dev-Collectd-Plot'],
-#    :roles => ['Prod-Collectd-Plot'],
+    :roles => ['Collectd-Plot-Dev'],
     :forwards => { 80 => 8081, 8080 => 8082 }
+  }
+}
+=end
+
+nodes = {
+  :frontend => {
+    :ip_address => '192.168.50.15',
+    :roles => ['Collectd-Plot-Graph'],
+    :forwards => { 80 => 8081, 8080 => 8082 }
+  },
+  :persist0 => {
+    :ip_address => '192.168.50.16',
+    :roles => ['Collectd-Plot-Persist'],
+    :forwards => {}
+  },
+  :persist1 => {
+    :ip_address => '192.168.50.17',
+    :roles => ['Collectd-Plot-Persist'],
+    :forwards => {}
   }
 }
 
