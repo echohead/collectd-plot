@@ -19,8 +19,8 @@ module CollectdPlot
     set :views,         @root.join('lib/collectd-plot/views')
     helpers Sinatra::LinkToHelper, Sinatra::RespondWithHelper, Sinatra::MultipleParamValues
 
-set :raise_errors, true
-set :show_exceptions, false
+#set :raise_errors, true
+#set :show_exceptions, false
 
     # if configured as a proxy, serve rrd files from remote hosts
     # else, serve rrd files from local filesystem.
