@@ -57,9 +57,13 @@ module CollectdPlot
 
     # return rrdtool graph
     get '/graph' do
-      params = request_params # handle multiple series
       content_type 'image/png'
-      RRDGraph.graph(params)
+      params = request_params # handle multiple series
+      if CollectdPlot::Config.proxy
+        RRDRemote.http_get("http://" + RRDRemote.shards_for_host(params[:host]).first + request.env['REQUEST_URI'])
+      else
+        RRDGraph.graph(params)
+      end
     end
 
     # backwards-compatibility CGP graph path

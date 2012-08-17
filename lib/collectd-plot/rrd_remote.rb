@@ -85,7 +85,7 @@ module CollectdPlot
       JSON.parse(http_get uri, :headers => {'accept' => 'application/json'})
     end
 
-    def self.http_get(uri, opts)
+    def self.http_get(uri, opts={})
       resp = HTTParty.get uri, opts
       raise "bad response for #{uri}" unless resp.code == 200
       resp.body
