@@ -39,9 +39,9 @@ module CollectdPlot
           plugin, instance, rrds, types = CollectdPlot::Plugins.dir_info dir
           res[plugin] ||= {}
           res[plugin][instance] ||= {}
-          res[plugin][instance][:types] = types
-          res[plugin][instance][:rrds] ||= []
-          res[plugin][instance][:rrds].concat rrds
+          res[plugin][instance]['types'] = types
+          res[plugin][instance]['rrds'] ||= []
+          res[plugin][instance]['rrds'].concat rrds
         end
       end
     end

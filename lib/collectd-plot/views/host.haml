@@ -36,7 +36,7 @@
     %table
       %tbody
         - locals[:metrics][plugin].keys.sort.each do |instance|
-          - locals[:metrics][plugin][instance][:types].each do |type|
+          - locals[:metrics][plugin][instance]['types'].each do |type|
             - if graph_num % 3 == 0
               %tr
             %td
