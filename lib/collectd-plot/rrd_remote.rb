@@ -82,7 +82,7 @@ module CollectdPlot
     end
 
     def self.http_get_json(uri)
-      JSON.parse(http_get uri, :headers => {:accept => 'application/json'})
+      JSON.parse(http_get uri, :headers => {'accept' => 'application/json'})
     end
 
     def self.http_get(uri, opts)
