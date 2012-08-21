@@ -11,7 +11,7 @@ module CollectdPlot
     raise "bad rrd directory: #{RRDDIR}" unless File.exists?(RRDDIR)
 
     def self.rrd_path(host, plugin, instance, rrd)
-      dir = plugin + (instance.empty? ? '' : "-#{instance}")
+      dir = plugin + ((instance.nil? or instance.empty?) ? '' : "-#{instance}")
       "#{RRDDIR}/#{host}/#{dir}/#{rrd}.rrd"
     end
 
