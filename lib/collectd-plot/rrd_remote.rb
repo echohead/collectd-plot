@@ -15,7 +15,7 @@ module CollectdPlot
         r = Regexp.new regexp
         all_hosts.select { |h| h =~ r }
       else
-        all_hosts
+        all_hosts.sort.uniq
       end
     end
 
