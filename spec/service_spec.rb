@@ -10,6 +10,13 @@ describe 'the service' do
     CollectdPlot::Config.from_file("#{File.dirname(__FILE__)}/fixtures/config.json")
   end
 
+  it 'should respond to health checks' do
+    resp = get '/health'
+    resp.status.should == 200
+    resp.body.should =~ /collectd-plot: ok/
+  end
+
+
   context 'when running on a persistence shard' do
 
     before :each do

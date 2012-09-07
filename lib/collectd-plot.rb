@@ -32,6 +32,10 @@ module CollectdPlot
       redirect '/hosts'
     end
 
+    get '/health' do
+      'collectd-plot: ok'
+    end
+
     get '/hosts' do
       respond_with_key :index, :hosts, :hosts => rrd_reader.list_hosts(params[:regexp]).sort, :regexp => params[:regexp]
     end
